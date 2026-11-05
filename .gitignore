@@ -33,3 +33,7 @@ _deps
 .DS_Store
 *.log
 
+
+._*
+__MACOSX/
+__pycache__/

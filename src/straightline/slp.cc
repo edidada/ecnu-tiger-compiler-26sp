@@ -1,35 +1,30 @@
 #include "straightline/slp.h"
 
 #include <iostream>
+#include <stdexcept>
 
 namespace A {
 int A::CompoundStm::MaxArgs() const {
-  // TODO: put your code here (lab1).
-
+  return std::max(stm1->MaxArgs(), stm2->MaxArgs());
 }
 
 Table *A::CompoundStm::Interp(Table *t) const {
-  // TODO: put your code here (lab1).
+  return stm2->Interp(stm1->Interp(t));
 }
 
-int A::AssignStm::MaxArgs() const {
-  // TODO: put your code here (lab1).
-
-}
+int A::AssignStm::MaxArgs() const { return exp->MaxArgs(); }
 
 Table *A::AssignStm::Interp(Table *t) const {
-  // TODO: put your code here (lab1).
-
+  IntAndTable *value = exp->InterpExp(t);
+  return new Table(id, value->i, value->t);
 }
 
 int A::PrintStm::MaxArgs() const {
-  // TODO: put your code here (lab1).
-
+  return std::max(exps->NumExps(), exps->MaxArgs());
 }
 
 Table *A::PrintStm::Interp(Table *t) const {
-  // TODO: put your code here (lab1).
-  
+  return exps->Interp(t)->t;
 }
 
 int IdExp::MaxArgs() const {
@@ -37,6 +32,7 @@ int IdExp::MaxArgs() const {
 }
 
 IntAndTable *IdExp::InterpExp(Table *t) const {
+  if (t == nullptr) throw std::runtime_error("Undefined straight-line variable: " + id);
   return new IntAndTable(t->Lookup(id), t);
 }
 
@@ -57,7 +53,7 @@ int OpExp::MaxArgs() const {
 
 IntAndTable *OpExp::InterpExp(Table *t) const {
   IntAndTable *expValue1 = left->InterpExp(t);
-  IntAndTable *expValue2 = right->InterpExp(t);
+  IntAndTable *expValue2 = right->InterpExp(expValue1->t);
   switch (oper) {
   case PLUS:
     return new IntAndTable(expValue1->i + expValue2->i, expValue2->t);
@@ -114,7 +110,7 @@ int Table::Lookup(const std::string &key) const {
   } else if (tail != nullptr) {
     return tail->Lookup(key);
   } else {
-    assert(false);
+    throw std::runtime_error("Undefined straight-line variable: " + key);
   }
 }
 

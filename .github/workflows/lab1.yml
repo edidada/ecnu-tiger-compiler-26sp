@@ -1,0 +1,24 @@
+name: ECNU Tiger 26sp Lab1 straight-line interpreter
+on:
+  push:
+    branches: [edidada/lab1]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  interpreter:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install upstream generator dependencies
+        run: sudo apt-get update && sudo apt-get install -y flexc++ bisonc++
+      - name: Release build and unchanged original outputs plus regressions
+        run: python scripts/verify_lab1.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lab1-results
+          path: build/lab1-results.json

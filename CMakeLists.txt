@@ -89,3 +89,5 @@ add_executable(test_slp ${SLP_SOURCES})
 # # lab 5 & lab 6
 # add_executable(tiger-compiler "src/tiger/main/main.cc" ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
 # add_dependencies(tiger-compiler lex_parse_sources)
+
+add_executable(test_slp_side_effects tests/lab1_side_effects.cc src/straightline/slp.cc)
