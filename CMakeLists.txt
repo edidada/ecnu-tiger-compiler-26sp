@@ -40,56 +40,55 @@ file(GLOB TIGER_SOURCES
         "src/tiger/output/*.cc"
         )
 
-SET(TIGER_LEX_PARSE_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/tiger/lex/lex.cc
-        ${PROJECT_SOURCE_DIR}/src/tiger/lex/scannerbase.h
-        ${PROJECT_SOURCE_DIR}/src/tiger/parse/parse.cc
-        ${PROJECT_SOURCE_DIR}/src/tiger/parse/parserbase.h
-        )
-
-SET_SOURCE_FILES_PROPERTIES(${TIGER_LEX_PARSE_SOURCES} GENERATED)
-
-# Create custom command for flexc++
+# Lab2 needs the parser's token declarations, not the unfinished Lab3 parser.
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+set(LAB2_TOKEN_DIR "${PROJECT_BINARY_DIR}/generated/tiger/parse")
+file(MAKE_DIRECTORY "${LAB2_TOKEN_DIR}")
+include_directories(BEFORE "${PROJECT_BINARY_DIR}/generated")
+set(LAB2_LEX_SOURCES
+    "${PROJECT_SOURCE_DIR}/src/tiger/lex/lex.cc"
+    "${PROJECT_SOURCE_DIR}/src/tiger/lex/scannerbase.h"
+    "${LAB2_TOKEN_DIR}/parserbase.h"
+    "${PROJECT_SOURCE_DIR}/src/tiger/errormsg/errormsg.cc")
+set_source_files_properties(
+    "${PROJECT_SOURCE_DIR}/src/tiger/lex/lex.cc"
+    "${PROJECT_SOURCE_DIR}/src/tiger/lex/scannerbase.h"
+    "${LAB2_TOKEN_DIR}/parserbase.h" PROPERTIES GENERATED TRUE)
 add_custom_command(
-        OUTPUT ${PROJECT_SOURCE_DIR}/src/tiger/lex/lex.cc ${PROJECT_SOURCE_DIR}/src/tiger/lex/scannerbase.h
-        COMMAND flexc++ tiger.lex
-        DEPENDS ${PROJECT_SOURCE_DIR}/src/tiger/lex/tiger.lex
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/src/tiger/lex
-)
-
-# # Create custom command for bisonc++ (note the DEPENDS)
+    OUTPUT "${LAB2_TOKEN_DIR}/parserbase.h"
+    COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/scripts/lab2_token_grammar.py"
+        "${PROJECT_SOURCE_DIR}/src/tiger/parse/tiger.y" "${LAB2_TOKEN_DIR}/tokens.y"
+    COMMAND "${BISONCPP}" tokens.y
+    DEPENDS "${PROJECT_SOURCE_DIR}/scripts/lab2_token_grammar.py"
+        "${PROJECT_SOURCE_DIR}/src/tiger/parse/tiger.y"
+    WORKING_DIRECTORY "${LAB2_TOKEN_DIR}")
 add_custom_command(
-        OUTPUT ${PROJECT_SOURCE_DIR}/src/tiger/parse/parse.cc ${PROJECT_SOURCE_DIR}/src/tiger/parse/parserbase.h
-        COMMAND bisonc++ tiger.y
-        DEPENDS ${PROJECT_SOURCE_DIR}/src/tiger/parse/tiger.y
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/src/tiger/parse
-)
-
-# # Create target for the lexer and the parser
-add_custom_target(
-        lex_parse_sources
-        DEPENDS ${TIGER_LEX_PARSE_SOURCES}
-)
+    OUTPUT "${PROJECT_SOURCE_DIR}/src/tiger/lex/lex.cc"
+        "${PROJECT_SOURCE_DIR}/src/tiger/lex/scannerbase.h"
+    COMMAND "${FLEXCPP}" tiger.lex
+    DEPENDS "${PROJECT_SOURCE_DIR}/src/tiger/lex/tiger.lex"
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/src/tiger/lex")
+add_custom_target(lab2_lexer_sources DEPENDS ${LAB2_LEX_SOURCES})
 
 # lab 1
 add_executable(test_slp ${SLP_SOURCES})
 
 # lab 2
-add_executable(test_lex "src/tiger/main/test_lex.cc" ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
-add_dependencies(test_lex lex_parse_sources)
+add_executable(test_lex "src/tiger/main/test_lex.cc" ${LAB2_LEX_SOURCES})
+add_dependencies(test_lex lab2_lexer_sources)
 
 # lab 3
-# add_executable(test_parse "src/tiger/main/test_parse.cc" ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
+# add_executable(test_parse "src/tiger/main/test_parse.cc" ${LAB2_LEX_SOURCES})
 # add_dependencies(test_parse lex_parse_sources)
 #
 # # lab 4
-# add_executable(test_semant "src/tiger/main/test_semant.cc" ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
+# add_executable(test_semant "src/tiger/main/test_semant.cc" ${LAB2_LEX_SOURCES})
 # add_dependencies(test_semant lex_parse_sources)
 #
 # # lab 5 & lab 6
-# add_executable(tiger-compiler "src/tiger/main/main.cc" ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
+# add_executable(tiger-compiler "src/tiger/main/main.cc" ${LAB2_LEX_SOURCES})
 # add_dependencies(tiger-compiler lex_parse_sources)
 
 # Lab2 byte-preserving regression driver; uses exactly the production scanner.
-add_executable(lab2_scan tests/lab2_scan.cc ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
-add_dependencies(lab2_scan lex_parse_sources)
+add_executable(lab2_scan tests/lab2_scan.cc ${LAB2_LEX_SOURCES})
+add_dependencies(lab2_scan lab2_lexer_sources)

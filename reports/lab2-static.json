@@ -10,5 +10,7 @@
   ],
   "build_status": "not-run",
   "runtime_status": "not-run",
-  "ci_status": "awaiting workflow publication permission"
+  "ci_status": "awaiting workflow publication permission",
+  "unchanged_lab3_grammar": "src/tiger/parse/tiger.y",
+  "token_header_plan": "Preserve upstream declarations, generate a separate empty parser token interface in build/generated; do not link generated parser"
 }

@@ -17,3 +17,7 @@
 仅完成 Python AST、Git diff 和上游输入、参考答案、测试驱动的 Git blob 一致性检查，见 `lab2-static.json`。未本地编译，未运行扫描器，未取得远端结果。生成器兼容性及运行行为仍待 Actions 验证，不计为验收通过。OAuth 当前缺少 workflow scope，发布被拒绝时保留本地提交。
 
 生成器接口参考 flexc++ 官方手册：https://fbb-git.gitlab.io/flexcpp/manual/flexc%2B%2B03.html 。实现未使用其他学生答案。
+
+## 独立构建依赖修正
+
+静态复核发现上游 Lab2 的 CMake 会生成并链接尚未实现的 Lab3 语法，其中 exp 等非终结符没有规则，词法实验也会因此受阻。现从原始 tiger.y 原样提取 token、union 和类型预包含声明，在 build/generated 下生成仅供词法实验使用的 token 头；空起始规则生成的 parser 不编译、不链接、不参与验收。两个词法驱动均链接实际 flexc++ 扫描器及 ErrorMsg，实现仍覆盖全部 54 个原始词法用例。上游 Lab3 文件未改动，后续语法实验仍须实现真正的完整语法。这项构建修正尚待远端验证。
