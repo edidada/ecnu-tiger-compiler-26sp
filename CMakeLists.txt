@@ -81,11 +81,15 @@ add_dependencies(test_lex lex_parse_sources)
 # lab 3
 add_executable(test_parse "src/tiger/main/test_parse.cc" ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
 add_dependencies(test_parse lex_parse_sources)
-# 
+#
 # # lab 4
 # add_executable(test_semant "src/tiger/main/test_semant.cc" ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
 # add_dependencies(test_semant lex_parse_sources)
-# 
+#
 # # lab 5 & lab 6
 # add_executable(tiger-compiler "src/tiger/main/main.cc" ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
 # add_dependencies(tiger-compiler lex_parse_sources)
+
+# Lab3 semantic-structure and symbol-lifetime regression driver.
+add_executable(lab3_ast tests/lab3_ast.cc ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
+add_dependencies(lab3_ast lex_parse_sources)

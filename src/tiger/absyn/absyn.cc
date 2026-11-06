@@ -1,4 +1,6 @@
 #include "tiger/absyn/absyn.h"
+
+#include <array>
 #include "tiger/errormsg/errormsg.h"
 
 namespace {
@@ -28,11 +30,10 @@ AbsynTree::~AbsynTree() { delete root_; }
 
 void AbsynTree::Print(FILE *out) const { root_->Print(out, 0); }
 
-SimpleVar::~SimpleVar() { delete sym_; }
+SimpleVar::~SimpleVar() = default;
 
 FieldVar::~FieldVar() {
   delete var_;
-  delete sym_;
 }
 
 SubscriptVar::~SubscriptVar() {
@@ -49,7 +50,6 @@ IntExp::~IntExp() = default;
 StringExp::~StringExp() = default;
 
 CallExp::~CallExp() {
-  delete func_;
   delete args_;
 }
 
@@ -59,7 +59,6 @@ OpExp::~OpExp() {
 }
 
 RecordExp::~RecordExp() {
-  delete typ_;
   delete fields_;
 }
 
@@ -91,7 +90,6 @@ LetExp::~LetExp() {
 }
 
 ArrayExp::~ArrayExp() {
-  delete typ_;
   delete size_;
   delete init_;
 }
@@ -99,25 +97,22 @@ ArrayExp::~ArrayExp() {
 VoidExp::~VoidExp() = default;
 
 EField::~EField() {
-  delete name_;
   delete exp_;
 }
 
 FunctionDec::~FunctionDec() { delete functions_; }
 
 VarDec::~VarDec() {
-  delete var_;
-  delete typ_;
   delete init_;
 }
 
 TypeDec::~TypeDec() { delete types_; }
 
-NameTy::~NameTy() { delete name_; }
+NameTy::~NameTy() = default;
 
 RecordTy::~RecordTy() { delete record_; }
 
-ArrayTy::~ArrayTy() { delete array_; }
+ArrayTy::~ArrayTy() = default;
 
 void SimpleVar::Print(FILE *out, int d) const {
   Indent(out, d);

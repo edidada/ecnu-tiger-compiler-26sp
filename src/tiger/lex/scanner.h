@@ -46,6 +46,8 @@ public:
   int lex();
 
 private:
+  int comment_pos_ = 1;
+  int string_pos_ = 1;
   int comment_level_;
   std::string string_buf_;
   int char_pos_;
@@ -63,6 +65,7 @@ private:
   void postCode(PostEnum_ type);
   void adjust();
   void adjustStr();
+  void adjustLines();
 };
 
 inline int Scanner::lex() { return lex_(); }
@@ -83,5 +86,14 @@ inline void Scanner::adjust() {
 }
 
 inline void Scanner::adjustStr() { char_pos_ += length(); }
+
+// Continuations may contain a newline after their initial backslash. Record
+// every LF at its actual source offset, rather than the beginning of the match.
+inline void Scanner::adjustLines() {
+  for (char ch : matched()) {
+    errormsg_->tok_pos_ = char_pos_++;
+    if (ch == '\n') errormsg_->Newline();
+  }
+}
 
 #endif // TIGER_LEX_SCANNER_H_

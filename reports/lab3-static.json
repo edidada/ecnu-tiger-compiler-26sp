@@ -1,0 +1,23 @@
+{
+  "upstream_branch": "lab3",
+  "upstream_commit": "7681461c2ab9a184805ba17aa6ab9dce87827c84",
+  "implementation_branch": "edidada/lab3",
+  "official_inputs": 51,
+  "official_expected_syntax_failures": [
+    "test49"
+  ],
+  "additional_cases": {
+    "snapshots": 13,
+    "negatives": 7
+  },
+  "same_process_repeated_parsers": 3,
+  "unchanged_upstream_files": 105,
+  "static_checks": [
+    "Python AST",
+    "balanced manually specified AST snapshots",
+    "original fixtures, parser test driver, and symbol-pool Git blob identities"
+  ],
+  "build": "not-run",
+  "runtime": "not-run",
+  "remote_ci": "not-published"
+}

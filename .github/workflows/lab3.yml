@@ -1,0 +1,23 @@
+name: Tiger Lab3 parser
+on:
+  push:
+    branches: [edidada/lab3]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lab3:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install parser and scanner generators
+        run: sudo apt-get update && sudo apt-get install -y flexc++ bisonc++
+      - name: Build Release and verify ASTs
+        run: python3 scripts/verify_lab3.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tiger-lab3-results
+          path: reports/lab3-results/
+          if-no-files-found: warn
