@@ -19,3 +19,5 @@
 仅进行了 Python AST、快照括号平衡、Git diff 和原始测试/驱动/符号池代码 Git blob 同一性检查，见 lab3-static.json。未本地编译、未运行 parser 或 grader，尚无远端 CI 成绩。生成器冲突、编译兼容性、所有 AST 和拒绝路径均待 Actions 实测，不能视作已验收。
 
 AST 的位置字段沿用上游 reduction 时读取 Scanner 位置的接口，尚未建立精确到每个 AST 节点起始 token 的位置栈；当前验收设计检查语法错误位置和 AST 结构，不证明 AST 位置信息完整。语义检查、翻译和机器码属于后续实验。来源和语法接口参考 bisonc++ 官方手册：https://fbb-git.gitlab.io/bisoncpp/manual/bisonc%2B%2B04.html ，未使用其他学生答案。
+
+静态复核补充：bisonc++ 对无终结符规则的默认优先级与 GNU Bison 不同。表达式透传及左值到表达式的规则显式使用低 CONTROL 优先级，避免截短控制体或抢先归约赋值左侧；声明分组及裸 ID 使用更低 GROUP 优先级，等待相邻 TYPE/FUNCTION 或下标/调用前缀。生成器实际冲突仍待 CI 检查，不能由静态阅读证明无冲突。

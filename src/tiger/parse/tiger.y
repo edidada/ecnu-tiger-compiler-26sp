@@ -26,6 +26,8 @@
   absyn::Ty *ty;
   }
 
+%nonassoc GROUP
+
 %token <sym> ID
 %token <sval> STRING
 %token <ival> INT
@@ -107,7 +109,7 @@ unary_exp:
   | MINUS unary_exp %prec UMINUS {$$ = new absyn::OpExp($2->pos_, absyn::MINUS_OP, new absyn::IntExp($2->pos_, 0), $2);}
   ;
 atom:
-    lvalue {$$ = new absyn::VarExp($1->pos_, $1);}
+    lvalue %prec CONTROL {$$ = new absyn::VarExp($1->pos_, $1);}
   | NIL {$$ = new absyn::NilExp(scanner_.GetTokPos());}
   | INT {$$ = new absyn::IntExp(scanner_.GetTokPos(), $1);}
   | STRING {$$ = new absyn::StringExp(scanner_.GetTokPos(), $1);}
@@ -125,7 +127,7 @@ atom:
   ;
  /* Keep ID [exp] unreduced until OF distinguishes construction from access. */
 lvalue:
-    ID {$$ = new absyn::SimpleVar(scanner_.GetTokPos(), $1);}
+    ID %prec GROUP {$$ = new absyn::SimpleVar(scanner_.GetTokPos(), $1);}
   | nontrivial_lvalue {$$ = $1;}
   ;
 nontrivial_lvalue:
@@ -173,7 +175,7 @@ vardec:
   | VAR ID COLON ID ASSIGN exp {$$ = new absyn::VarDec(scanner_.GetTokPos(), $2, $4, $6);}
   ;
 type_group:
-    type_decl {$$ = new absyn::NameAndTyList($1);}
+    type_decl %prec GROUP {$$ = new absyn::NameAndTyList($1);}
   | type_decl type_group {$$ = $2->Prepend($1);}
   ;
 type_decl: TYPE ID EQ ty {$$ = new absyn::NameAndTy($2, $4);};
@@ -192,7 +194,7 @@ nonempty_fields:
   ;
 field: ID COLON ID {$$ = new absyn::Field(scanner_.GetTokPos(), $1, $3);};
 function_group:
-    function_decl {$$ = new absyn::FunDecList($1);}
+    function_decl %prec GROUP {$$ = new absyn::FunDecList($1);}
   | function_decl function_group {$$ = $2->Prepend($1);}
   ;
 function_decl:
