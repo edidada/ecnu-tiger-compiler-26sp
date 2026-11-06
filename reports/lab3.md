@@ -23,3 +23,7 @@ AST 的位置字段改用 bisonc++ 的 `%ltype int` 位置栈：每次扫描为 
 静态复核补充：bisonc++ 对无终结符规则的默认优先级与 GNU Bison 不同。表达式透传及左值到表达式的规则显式使用低 CONTROL 优先级，避免截短控制体或抢先归约赋值左侧；声明分组及裸 ID 使用更低 GROUP 优先级，等待相邻 TYPE/FUNCTION 或下标/调用前缀。生成器实际冲突仍待 CI 检查，不能由静态阅读证明无冲突。
 
 位置栈接口依据 bisonc++ 官方 location API：https://fbb-git.gitlab.io/bisoncpp/bisonc%2B%2Bapi.html 。
+
+## 远端发布恢复
+
+2026-11-06 已使用本机现有 edidada SSH 身份发布独立实验分支，无需修改账户权限。此前 workflow scope 拒绝仅针对 HTTPS OAuth 路径。现进入实际 Actions 编译/运行修复，最终是否通过以完成的 run 与提交 SHA 为准。

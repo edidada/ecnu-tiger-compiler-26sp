@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <list>
+#include <memory>
+#include <string_view>
 
 #include "tiger/lex/scanner.h"
 #include "tiger/parse/parserbase.h"
