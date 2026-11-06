@@ -1,0 +1,14 @@
+{
+  "upstream_branch": "lab2",
+  "upstream_commit": "624226351fb3cde7acb677613f11d60c8f9749a7",
+  "implementation_branch": "edidada/lab2",
+  "official_testcases": 54,
+  "unchanged_upstream_files": 109,
+  "static_checks": [
+    "Python AST parse",
+    "original fixture and driver Git blob identities"
+  ],
+  "build_status": "not-run",
+  "runtime_status": "not-run",
+  "ci_status": "awaiting workflow publication permission"
+}

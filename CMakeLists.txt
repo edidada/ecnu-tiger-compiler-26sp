@@ -81,11 +81,15 @@ add_dependencies(test_lex lex_parse_sources)
 # lab 3
 # add_executable(test_parse "src/tiger/main/test_parse.cc" ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
 # add_dependencies(test_parse lex_parse_sources)
-# 
+#
 # # lab 4
 # add_executable(test_semant "src/tiger/main/test_semant.cc" ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
 # add_dependencies(test_semant lex_parse_sources)
-# 
+#
 # # lab 5 & lab 6
 # add_executable(tiger-compiler "src/tiger/main/main.cc" ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
 # add_dependencies(tiger-compiler lex_parse_sources)
+
+# Lab2 byte-preserving regression driver; uses exactly the production scanner.
+add_executable(lab2_scan tests/lab2_scan.cc ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
+add_dependencies(lab2_scan lex_parse_sources)

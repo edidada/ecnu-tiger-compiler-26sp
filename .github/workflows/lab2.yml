@@ -1,0 +1,23 @@
+name: Tiger Lab2 lexer
+on:
+  push:
+    branches: [edidada/lab2]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lab2:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install generators
+        run: sudo apt-get update && sudo apt-get install -y flexc++ bisonc++
+      - name: Build Release and verify all lexer fixtures
+        run: python3 scripts/verify_lab2.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tiger-lab2-results
+          path: reports/lab2-results/
+          if-no-files-found: warn

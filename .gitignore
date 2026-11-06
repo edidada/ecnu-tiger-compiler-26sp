@@ -33,3 +33,8 @@ _deps
 .DS_Store
 *.log
 
+
+._*
+__MACOSX/
+__pycache__/
+reports/lab2-results/
