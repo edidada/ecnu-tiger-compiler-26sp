@@ -2,7 +2,7 @@
 
 ## 来源与实现
 
-上游为 `https://gitee.com/rosettaH/ecnu-tiger-compiler-26sp` 的 `lab2` 分支（`624226351fb3cde7acb677613f11d60c8f9749a7`）；实验分支为 `edidada/lab2`。该课程为 ECNU 补充项目，不等同于 SJTU 当前期实验。
+上游为 `https://gitee.com/east-china-normal-university_ttb_cs/tiger-compiler-26sp` 的 `lab2` 分支（`624226351fb3cde7acb677613f11d60c8f9749a7`）；实验分支为 `edidada/lab2`。该课程为 ECNU 补充项目，不等同于 SJTU 当前期实验。
 
 补全全部关键字、标点、最长匹配运算符、标识符及整数；通过独立状态处理嵌套注释、字符串和续行。字符串支持换行、制表、引号、反斜杠、三位十进制字节及控制字符转义，以及反斜杠包围的空白续行。字符串位置保持为开始引号；续行中的 LF 按实际字节位置登记。
 
