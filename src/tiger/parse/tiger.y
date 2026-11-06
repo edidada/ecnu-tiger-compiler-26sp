@@ -119,7 +119,13 @@ atom:
   | ID LBRACE record_fields RBRACE {@@ = @1; $$ = new absyn::RecordExp(@1, $1, $3);}
   | ID LBRACK exp RBRACK OF exp %prec CONTROL {@@ = @1; $$ = new absyn::ArrayExp(@1, $1, $3, $6);}
   | LPAREN RPAREN {@@ = @1; $$ = new absyn::VoidExp(@1);}
-  | LPAREN sequence RPAREN {@@ = @1; $$ = new absyn::SeqExp(@1, $2);}
+  | LPAREN sequence RPAREN {
+    @@ = @1;
+    if ($2->GetList().size() == 1) {
+      $$ = $2->GetList().front();
+      delete $2;  // Only the temporary pointer-list container is owned here.
+    } else $$ = new absyn::SeqExp(@1, $2);
+  }
   | IF exp THEN exp %prec THEN {@@ = @1; $$ = new absyn::IfExp(@1, $2, $4, nullptr);}
   | IF exp THEN exp ELSE exp %prec CONTROL {@@ = @1; $$ = new absyn::IfExp(@1, $2, $4, $6);}
   | WHILE exp DO exp %prec CONTROL {@@ = @1; $$ = new absyn::WhileExp(@1, $2, $4);}
