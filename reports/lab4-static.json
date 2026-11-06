@@ -1,0 +1,48 @@
+{
+  "upstream_branch": "lab4",
+  "upstream_commit": "bf1ae63a3ce3caf48ffebf6c1f1bff0ac369ad92",
+  "work_branch": "edidada/lab4",
+  "semantic_method_definitions": [
+    "AbsynTree",
+    "ArrayExp",
+    "ArrayTy",
+    "AssignExp",
+    "BreakExp",
+    "CallExp",
+    "FieldVar",
+    "ForExp",
+    "FunctionDec",
+    "IfExp",
+    "IntExp",
+    "LetExp",
+    "NameTy",
+    "NilExp",
+    "OpExp",
+    "RecordExp",
+    "RecordTy",
+    "SeqExp",
+    "SimpleVar",
+    "StringExp",
+    "SubscriptVar",
+    "TypeDec",
+    "VarDec",
+    "VarExp",
+    "VoidExp",
+    "WhileExp"
+  ],
+  "official_inputs": 52,
+  "missing_reference": [
+    "test50.out"
+  ],
+  "extra_programs": 22,
+  "direct_cpp_type_scope_check": true,
+  "unchanged_upstream_files": 104,
+  "static_checks": [
+    "Python AST",
+    "AST semantic declaration and definition name inventory",
+    "original fixture and official test driver Git blob identities"
+  ],
+  "build": "not-run",
+  "runtime": "not-run",
+  "ci": "not-published"
+}

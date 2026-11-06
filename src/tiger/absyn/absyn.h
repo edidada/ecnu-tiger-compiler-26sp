@@ -63,6 +63,7 @@ public:
   ~AbsynTree();
 
   void Print(FILE *out) const;
+  [[nodiscard]] const Exp *Root() const { return root_; }
   void SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                   err::ErrorMsg *errormsg) const;
 private:

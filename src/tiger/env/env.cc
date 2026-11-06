@@ -58,6 +58,9 @@ void ProgSem::FillBaseVEnv() {
   venv_->Enter(sym::Symbol::UniqueSymbol("substring"),
                new env::FunEntry(formals, result));
 
+  venv_->Enter(sym::Symbol::UniqueSymbol("not"),
+               new env::FunEntry(new type::TyList(type::IntTy::Instance()), type::IntTy::Instance()));
+
   // Seven arguments testcase
   result = type::IntTy::Instance();
   formals = new type::TyList({type::IntTy::Instance(), type::IntTy::Instance(),
