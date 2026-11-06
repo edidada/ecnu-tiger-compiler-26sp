@@ -13,3 +13,7 @@
 reports/upstream-lab-map.json固定7个上游分支SHA、源码/测试数据文件数及TODO位置；仅lab1有VERSION文件，其他分支没有，不推断为同一版本布局。TODO数只是定位提示，不是未完成函数数或实验评分。Lab1原prog.cc/test_slp.cc及7份ref文件与上游Git对象逐字节一致；新增回归位于tests目录，没有替换原始案例。
 
 当前需要通过gh auth refresh -h github.com -s workflow的交互授权，或恢复有发布能力的已连接GitHub工具，才能创建包含独立工作流的实验分支。已向用户说明所需操作，尚未收到授权完成回复，不假定权限已变。本地不启动编译或测试。
+
+## 发布恢复
+
+2026-11-06 已通过本机现有 edidada SSH 身份发布，无需修改账户权限；开始 Actions 实测，最终成绩以实际完成的 run 为准。
