@@ -1,0 +1,222 @@
+{
+  "upstream": "https://gitee.com/east-china-normal-university_ttb_cs/tiger-compiler-26sp",
+  "verified_at": "2026-11-06",
+  "inspection": "git object reading only; TODO counts are hints, not implementation or grading proof",
+  "labs": [
+    {
+      "branch": "lab1",
+      "commit": "38daecedcbabd9fcde2e66d6f464bfc91aac8ec6",
+      "version": "1.1.0",
+      "source_files": 5,
+      "testdata_files": 395,
+      "placeholder_files": [
+        {
+          "file": "src/straightline/slp.cc",
+          "todo_lines": 6
+        },
+        {
+          "file": "src/straightline/slp.h",
+          "todo_lines": 8
+        }
+      ]
+    },
+    {
+      "branch": "lab2",
+      "commit": "624226351fb3cde7acb677613f11d60c8f9749a7",
+      "version": null,
+      "source_files": 19,
+      "testdata_files": 395,
+      "placeholder_files": [
+        {
+          "file": "src/straightline/slp.cc",
+          "todo_lines": 6
+        },
+        {
+          "file": "src/straightline/slp.h",
+          "todo_lines": 8
+        },
+        {
+          "file": "src/tiger/lex/tiger.lex",
+          "todo_lines": 1
+        },
+        {
+          "file": "src/tiger/parse/tiger.y",
+          "todo_lines": 2
+        }
+      ]
+    },
+    {
+      "branch": "lab3",
+      "commit": "7681461c2ab9a184805ba17aa6ab9dce87827c84",
+      "version": null,
+      "source_files": 19,
+      "testdata_files": 395,
+      "placeholder_files": [
+        {
+          "file": "src/straightline/slp.cc",
+          "todo_lines": 6
+        },
+        {
+          "file": "src/straightline/slp.h",
+          "todo_lines": 8
+        },
+        {
+          "file": "src/tiger/lex/tiger.lex",
+          "todo_lines": 1
+        },
+        {
+          "file": "src/tiger/parse/tiger.y",
+          "todo_lines": 2
+        }
+      ]
+    },
+    {
+      "branch": "lab4",
+      "commit": "bf1ae63a3ce3caf48ffebf6c1f1bff0ac369ad92",
+      "version": null,
+      "source_files": 24,
+      "testdata_files": 396,
+      "placeholder_files": [
+        {
+          "file": "src/straightline/slp.cc",
+          "todo_lines": 6
+        },
+        {
+          "file": "src/straightline/slp.h",
+          "todo_lines": 8
+        },
+        {
+          "file": "src/tiger/semant/semant.cc",
+          "todo_lines": 25
+        }
+      ]
+    },
+    {
+      "branch": "lab5-1",
+      "commit": "f4cd34c8e0c46921084a2a41c5dda0b828d7074e",
+      "version": null,
+      "source_files": 37,
+      "testdata_files": 411,
+      "placeholder_files": [
+        {
+          "file": "src/tiger/escape/escape.cc",
+          "todo_lines": 23
+        },
+        {
+          "file": "src/tiger/frame/frame.h",
+          "todo_lines": 3
+        },
+        {
+          "file": "src/tiger/frame/x64frame.cc",
+          "todo_lines": 6
+        },
+        {
+          "file": "src/tiger/semant/semant.cc",
+          "todo_lines": 26
+        },
+        {
+          "file": "src/tiger/translate/translate.cc",
+          "todo_lines": 40
+        }
+      ]
+    },
+    {
+      "branch": "lab5-2",
+      "commit": "d2aeaa89a8efddf713d09bac4dcfb187e6bfb3d8",
+      "version": null,
+      "source_files": 47,
+      "testdata_files": 411,
+      "placeholder_files": [
+        {
+          "file": "src/tiger/codegen/codegen.cc",
+          "todo_lines": 15
+        },
+        {
+          "file": "src/tiger/escape/escape.cc",
+          "todo_lines": 23
+        },
+        {
+          "file": "src/tiger/frame/frame.h",
+          "todo_lines": 3
+        },
+        {
+          "file": "src/tiger/frame/x64frame.cc",
+          "todo_lines": 16
+        },
+        {
+          "file": "src/tiger/frame/x64frame.h",
+          "todo_lines": 1
+        },
+        {
+          "file": "src/tiger/semant/semant.cc",
+          "todo_lines": 26
+        },
+        {
+          "file": "src/tiger/translate/translate.cc",
+          "todo_lines": 38
+        }
+      ]
+    },
+    {
+      "branch": "lab6",
+      "commit": "10e1f69e199a17c8514d41f281096c7b96ec6f66",
+      "version": null,
+      "source_files": 55,
+      "testdata_files": 411,
+      "placeholder_files": [
+        {
+          "file": "src/tiger/codegen/codegen.cc",
+          "todo_lines": 15
+        },
+        {
+          "file": "src/tiger/escape/escape.cc",
+          "todo_lines": 23
+        },
+        {
+          "file": "src/tiger/frame/frame.h",
+          "todo_lines": 3
+        },
+        {
+          "file": "src/tiger/frame/x64frame.cc",
+          "todo_lines": 16
+        },
+        {
+          "file": "src/tiger/frame/x64frame.h",
+          "todo_lines": 1
+        },
+        {
+          "file": "src/tiger/liveness/flowgraph.cc",
+          "todo_lines": 7
+        },
+        {
+          "file": "src/tiger/liveness/liveness.cc",
+          "todo_lines": 2
+        },
+        {
+          "file": "src/tiger/regalloc/color.cc",
+          "todo_lines": 1
+        },
+        {
+          "file": "src/tiger/regalloc/color.h",
+          "todo_lines": 1
+        },
+        {
+          "file": "src/tiger/regalloc/regalloc.cc",
+          "todo_lines": 1
+        },
+        {
+          "file": "src/tiger/regalloc/regalloc.h",
+          "todo_lines": 1
+        },
+        {
+          "file": "src/tiger/semant/semant.cc",
+          "todo_lines": 26
+        },
+        {
+          "file": "src/tiger/translate/translate.cc",
+          "todo_lines": 38
+        }
+      ]
+    }
+  ]
+}
