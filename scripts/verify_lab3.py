@@ -73,6 +73,7 @@ def main():
         ("offset-comment", "/*c*/\nx := 4", "AssignExp 7\nSimpleVar 7\nIntExp 12\n"),
         ("offset-call", "while x do\n  f(2)", "WhileExp 1\nVarExp 7\nSimpleVar 7\nCallExp 14\nIntExp 16\n"),
         ("offset-string", '"a\\n" +\n 2', "OpExp 1\nStringExp 1\nIntExp 10\n"),
+        ("offset-continuation", '"a\\\n \\b" + 1', "OpExp 1\nStringExp 1\nIntExp 12\n"),
         ("offset-let", "let var x:=1 in x end", "LetExp 1\nVarDec 5\nIntExp 12\nSeqExp 17\nVarExp 17\nSimpleVar 17\n"),
     ]
     for name,source,expected in positions:

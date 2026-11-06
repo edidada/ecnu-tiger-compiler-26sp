@@ -8,7 +8,7 @@
   ],
   "additional_cases": {
     "snapshots": 13,
-    "positions": 5,
+    "positions": 6,
     "negatives": 8
   },
   "same_process_repeated_parsers": 3,
