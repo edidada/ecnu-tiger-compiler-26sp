@@ -61,6 +61,7 @@ public:
   ~AbsynTree();
 
   void Print(FILE *out) const;
+  [[nodiscard]] const Exp *Root() const { return root_; }
 private:
   absyn::Exp *root_;
 };

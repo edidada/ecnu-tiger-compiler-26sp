@@ -10,7 +10,7 @@
 
 ## 验证方案
 
-独立 `.github/workflows/lab3.yml` 运行 Ubuntu 24.04，安装 flexc++/bisonc++，通过 `scripts/verify_lab3.py` 按 Release 构建。51 个原始输入中，50 个逐字节比较参考 AST，test49 必须报第 5 行第 18 列语法错误。另有 13 个手写 AST 快照、1 个同进程三次解析符号复用检查，以及 7 个非法语法/词法拒绝用例。附加测试驱动在词法报错时也返回失败，避免扫描器忽略非法字符后 AST 仍被当作成功。上传实际输出、诊断和 results.json。
+独立 `.github/workflows/lab3.yml` 运行 Ubuntu 24.04，安装 flexc++/bisonc++，通过 `scripts/verify_lab3.py` 按 Release 构建。51 个原始输入中，50 个逐字节比较参考 AST，test49 必须报第 5 行第 18 列语法错误。另有 13 个手写 AST 快照、1 个同进程三次解析符号复用检查，5 个完整节点位置快照，以及 8 个非法语法/词法拒绝用例。附加测试驱动在词法报错时也返回失败，避免扫描器忽略非法字符后 AST 仍被当作成功。上传实际输出、诊断和 results.json。
 
 原始用例和测试驱动不改动；只对临时输入副本及读取的参考答案做 CRLF 到 LF 规范化。快照用例不含字符串，比较时仅去除排版空白；官方 AST 输出仍逐字节比较。
 
@@ -18,6 +18,8 @@
 
 仅进行了 Python AST、快照括号平衡、Git diff 和原始测试/驱动/符号池代码 Git blob 同一性检查，见 lab3-static.json。未本地编译、未运行 parser 或 grader，尚无远端 CI 成绩。生成器冲突、编译兼容性、所有 AST 和拒绝路径均待 Actions 实测，不能视作已验收。
 
-AST 的位置字段沿用上游 reduction 时读取 Scanner 位置的接口，尚未建立精确到每个 AST 节点起始 token 的位置栈；当前验收设计检查语法错误位置和 AST 结构，不证明 AST 位置信息完整。语义检查、翻译和机器码属于后续实验。来源和语法接口参考 bisonc++ 官方手册：https://fbb-git.gitlab.io/bisoncpp/manual/bisonc%2B%2B04.html ，未使用其他学生答案。
+AST 的位置字段改用 bisonc++ 的 `%ltype int` 位置栈：每次扫描为 d_loc_ 赋当前 token 的 1-based 字节偏移，各非终结符通过 @@ 传递首个符号的位置，节点构造读取 @n；空列表显式使用当前扫描位置。let 的主体序列使用主体首 token 的位置。一元负号及其合成零常量使用负号位置。新增只读 Root 接口与全节点类别位置遍历驱动，五组位置快照覆盖算术、注释后的赋值、跨行调用、转义字符串和 let 声明/主体。扫描器 INITIAL EOF 显式更新为输入末尾后一个字节，新增 f(1, 的 1.5 语法诊断检查。这些位置行为仍未运行验证，不据此宣称已通过。语义检查、翻译和机器码属于后续实验。来源和语法接口参考 bisonc++ 官方手册：https://fbb-git.gitlab.io/bisoncpp/manual/bisonc%2B%2B04.html ，未使用其他学生答案。
 
 静态复核补充：bisonc++ 对无终结符规则的默认优先级与 GNU Bison 不同。表达式透传及左值到表达式的规则显式使用低 CONTROL 优先级，避免截短控制体或抢先归约赋值左侧；声明分组及裸 ID 使用更低 GROUP 优先级，等待相邻 TYPE/FUNCTION 或下标/调用前缀。生成器实际冲突仍待 CI 检查，不能由静态阅读证明无冲突。
+
+位置栈接口依据 bisonc++ 官方 location API：https://fbb-git.gitlab.io/bisoncpp/bisonc%2B%2Bapi.html 。

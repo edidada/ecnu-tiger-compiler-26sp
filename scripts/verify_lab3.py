@@ -20,7 +20,7 @@ def compact(data):
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     for command in (["cmake", "-S", ROOT, "-B", ROOT / "build", "-DCMAKE_BUILD_TYPE=Release"],
-                    ["cmake", "--build", ROOT / "build", "--target", "test_parse", "lab3_ast", "-j2"]):
+                    ["cmake", "--build", ROOT / "build", "--target", "test_parse", "lab3_ast", "lab3_positions", "-j2"]):
         subprocess.run(list(map(str, command)), cwd=ROOT, check=True, timeout=240)
     results = []
     for source in sorted((ROOT / "testdata/lab3/testcases").glob("*.tig")):
@@ -67,6 +67,22 @@ def main():
     results.append({"kind":"lifetime", "case":"three-parsers", "ok":proc.returncode == 0 and not proc.stderr and compact(proc.stdout) == expected})
     (OUT / "three-parsers.stdout").write_bytes(proc.stdout)
     (OUT / "three-parsers.stderr").write_bytes(proc.stderr)
+    # Full preorder offsets, independently specified from the input bytes.
+    positions = [
+        ("offset-arithmetic", "  1 + 2*3", "OpExp 3\nIntExp 3\nOpExp 7\nIntExp 7\nIntExp 9\n"),
+        ("offset-comment", "/*c*/\nx := 4", "AssignExp 7\nSimpleVar 7\nIntExp 12\n"),
+        ("offset-call", "while x do\n  f(2)", "WhileExp 1\nVarExp 7\nSimpleVar 7\nCallExp 14\nIntExp 16\n"),
+        ("offset-string", '"a\\n" +\n 2', "OpExp 1\nStringExp 1\nIntExp 10\n"),
+        ("offset-let", "let var x:=1 in x end", "LetExp 1\nVarDec 5\nIntExp 12\nSeqExp 17\nVarExp 17\nSimpleVar 17\n"),
+    ]
+    for name,source,expected in positions:
+        case = OUT / (name + ".tig")
+        case.write_text(source)
+        proc = execute("lab3_positions", [case])
+        ok = proc.returncode == 0 and not proc.stderr and proc.stdout == expected.encode()
+        results.append({"kind":"positions", "case":name, "ok":ok, "expected":expected, "exit_code":proc.returncode})
+        (OUT / (name + ".stdout")).write_bytes(proc.stdout)
+        (OUT / (name + ".stderr")).write_bytes(proc.stderr)
     negatives = [
         ("comparison-chain", "1<2<3"),
         ("computed-assignment", "(1+2):=3"),
@@ -75,6 +91,7 @@ def main():
         ("missing-else-body", "if 1 then 2 else"),
         ("bad-type-prefix", "let var a:=r nil in a end"),
         ("lexical-error", "1 @"),
+        ("eof-error-position", "f(1,"),
     ]
     for name,source in negatives:
         case = OUT / (name + ".tig")
@@ -82,6 +99,8 @@ def main():
         proc = execute("lab3_ast", [case])
         diagnostic = b"illegal token" if name == "lexical-error" else b"syntax error"
         ok = proc.returncode != 0 and diagnostic in proc.stderr
+        if name == "eof-error-position":
+            ok = ok and b":1.5: syntax error" in proc.stderr
         results.append({"kind":"negative", "case":name, "ok":ok, "exit_code":proc.returncode})
         (OUT / (name + ".stderr")).write_bytes(proc.stderr)
     summary = {"build_type":"Release", "passed":sum(x["ok"] for x in results), "total":len(results), "results":results}

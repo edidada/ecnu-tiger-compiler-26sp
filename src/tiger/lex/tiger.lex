@@ -90,3 +90,5 @@ letter [a-zA-Z]
 [ \t\r\f]+ {adjust();}
 \n {adjust(); errormsg_->Newline();}
 . {adjust(); errormsg_->Error(GetTokPos(), "illegal token");}
+
+<INITIAL><<EOF>> {errormsg_->tok_pos_ = char_pos_; return 0;}

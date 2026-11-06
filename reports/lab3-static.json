@@ -8,16 +8,19 @@
   ],
   "additional_cases": {
     "snapshots": 13,
-    "negatives": 7
+    "positions": 5,
+    "negatives": 8
   },
   "same_process_repeated_parsers": 3,
   "unchanged_upstream_files": 105,
   "static_checks": [
     "Python AST",
     "balanced manually specified AST snapshots",
-    "original fixtures, parser test driver, and symbol-pool Git blob identities"
+    "original fixtures, parser test driver, and symbol-pool Git blob identities",
+    "manual position fixture offsets fall within source byte ranges"
   ],
   "build": "not-run",
   "runtime": "not-run",
-  "remote_ci": "not-published"
+  "remote_ci": "not-published",
+  "source_positions": "%ltype int; scanner d_loc_ byte offsets; explicit @@ propagation and @n constructor positions; not runtime-verified"
 }

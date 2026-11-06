@@ -93,3 +93,6 @@ add_dependencies(test_parse lex_parse_sources)
 # Lab3 semantic-structure and symbol-lifetime regression driver.
 add_executable(lab3_ast tests/lab3_ast.cc ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
 add_dependencies(lab3_ast lex_parse_sources)
+
+add_executable(lab3_positions tests/lab3_positions.cc ${TIGER_SOURCES} ${TIGER_LEX_PARSE_SOURCES})
+add_dependencies(lab3_positions lex_parse_sources)

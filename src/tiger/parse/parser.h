@@ -65,6 +65,7 @@ inline void Parser::error() {
 
 inline int Parser::lex() {
   int token = scanner_.lex();
+  d_loc_ = scanner_.GetTokPos();
   switch (token) {
   case Parser::ID:
     d_val_.sym = sym::Symbol::UniqueSymbol(scanner_.matched());
