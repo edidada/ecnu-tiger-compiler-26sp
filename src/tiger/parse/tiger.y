@@ -76,19 +76,19 @@
 program: exp {@@ = @1; absyn_tree_ = std::make_unique<absyn::AbsynTree>($1);};
 exp:
     lvalue ASSIGN exp {@@ = @1; $$ = new absyn::AssignExp($1->pos_, $1, $3);}
-  | or_exp %prec CONTROL {@@ = @1; $$ = $1;}
+  | or_exp {@@ = @1; $$ = $1;}
   ;
 or_exp:
-    and_exp %prec CONTROL {@@ = @1; $$ = $1;}
+    and_exp {@@ = @1; $$ = $1;}
   | or_exp OR and_exp {@@ = @1; $$ = new absyn::OpExp($1->pos_, absyn::OR_OP, $1, $3);}
   ;
 and_exp:
-    compare_exp %prec CONTROL {@@ = @1; $$ = $1;}
+    compare_exp {@@ = @1; $$ = $1;}
   | and_exp AND compare_exp {@@ = @1; $$ = new absyn::OpExp($1->pos_, absyn::AND_OP, $1, $3);}
   ;
  /* A comparison has exactly two additive operands: a < b < c is invalid. */
 compare_exp:
-    add_exp %prec CONTROL {@@ = @1; $$ = $1;}
+    add_exp {@@ = @1; $$ = $1;}
   | add_exp EQ add_exp {@@ = @1; $$ = new absyn::OpExp($1->pos_, absyn::EQ_OP, $1, $3);}
   | add_exp NEQ add_exp {@@ = @1; $$ = new absyn::OpExp($1->pos_, absyn::NEQ_OP, $1, $3);}
   | add_exp LT add_exp {@@ = @1; $$ = new absyn::OpExp($1->pos_, absyn::LT_OP, $1, $3);}
@@ -97,21 +97,21 @@ compare_exp:
   | add_exp GE add_exp {@@ = @1; $$ = new absyn::OpExp($1->pos_, absyn::GE_OP, $1, $3);}
   ;
 add_exp:
-    mul_exp %prec CONTROL {@@ = @1; $$ = $1;}
+    mul_exp {@@ = @1; $$ = $1;}
   | add_exp PLUS mul_exp {@@ = @1; $$ = new absyn::OpExp($1->pos_, absyn::PLUS_OP, $1, $3);}
   | add_exp MINUS mul_exp {@@ = @1; $$ = new absyn::OpExp($1->pos_, absyn::MINUS_OP, $1, $3);}
   ;
 mul_exp:
-    unary_exp %prec CONTROL {@@ = @1; $$ = $1;}
+    unary_exp {@@ = @1; $$ = $1;}
   | mul_exp TIMES unary_exp {@@ = @1; $$ = new absyn::OpExp($1->pos_, absyn::TIMES_OP, $1, $3);}
   | mul_exp DIVIDE unary_exp {@@ = @1; $$ = new absyn::OpExp($1->pos_, absyn::DIVIDE_OP, $1, $3);}
   ;
 unary_exp:
-    atom %prec CONTROL {@@ = @1; $$ = $1;}
+    atom {@@ = @1; $$ = $1;}
   | MINUS unary_exp %prec UMINUS {@@ = @1; $$ = new absyn::OpExp(@1, absyn::MINUS_OP, new absyn::IntExp(@1, 0), $2);}
   ;
 atom:
-    lvalue %prec CONTROL {@@ = @1; $$ = new absyn::VarExp($1->pos_, $1);}
+    lvalue {@@ = @1; $$ = new absyn::VarExp($1->pos_, $1);}
   | NIL {@@ = @1; $$ = new absyn::NilExp(@1);}
   | INT {@@ = @1; $$ = new absyn::IntExp(@1, $1);}
   | STRING {@@ = @1; $$ = new absyn::StringExp(@1, $1);}
@@ -129,7 +129,7 @@ atom:
   ;
  /* Keep ID [exp] unreduced until OF distinguishes construction from access. */
 lvalue:
-    ID %prec GROUP {@@ = @1; $$ = new absyn::SimpleVar(@1, $1);}
+    ID {@@ = @1; $$ = new absyn::SimpleVar(@1, $1);}
   | nontrivial_lvalue {@@ = @1; $$ = $1;}
   ;
 nontrivial_lvalue:
@@ -177,7 +177,7 @@ vardec:
   | VAR ID COLON ID ASSIGN exp {@@ = @1; $$ = new absyn::VarDec(@1, $2, $4, $6);}
   ;
 type_group:
-    type_decl %prec GROUP {@@ = @1; $$ = new absyn::NameAndTyList($1);}
+    type_decl {@@ = @1; $$ = new absyn::NameAndTyList($1);}
   | type_decl type_group {@@ = @1; $$ = $2->Prepend($1);}
   ;
 type_decl: TYPE ID EQ ty {@@ = @1; $$ = new absyn::NameAndTy($2, $4);};
@@ -196,7 +196,7 @@ nonempty_fields:
   ;
 field: ID COLON ID {@@ = @1; $$ = new absyn::Field(@1, $1, $3);};
 function_group:
-    function_decl %prec GROUP {@@ = @1; $$ = new absyn::FunDecList($1);}
+    function_decl {@@ = @1; $$ = new absyn::FunDecList($1);}
   | function_decl function_group {@@ = @1; $$ = $2->Prepend($1);}
   ;
 function_decl:

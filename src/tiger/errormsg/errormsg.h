@@ -4,6 +4,8 @@
 #include <fstream>
 #include <list>
 #include <string>
+#include <stdexcept>
+#include <string_view>
 
 /**
  * Forward Declarations
