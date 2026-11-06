@@ -39,6 +39,7 @@ def main():
                        output.decode(errors="replace").splitlines(True), fromfile="expected", tofile=source.name)))
         results.append({"kind":"official", "case":source.name, "ok":ok, "exit_code":proc.returncode})
     snapshots = [
+        ("single-parens", "(1)", "intExp(1)"),
         ("precedence", "1+2*3", "opExp(PLUS,intExp(1),opExp(TIMES,intExp(2),intExp(3)))"),
         ("left-associative", "8-3-1", "opExp(MINUS,opExp(MINUS,intExp(8),intExp(3)),intExp(1))"),
         ("unary", "--2", "opExp(MINUS,intExp(0),opExp(MINUS,intExp(0),intExp(2)))"),
