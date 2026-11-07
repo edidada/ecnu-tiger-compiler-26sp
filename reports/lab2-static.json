@@ -12,5 +12,8 @@
   "runtime_status": "not-run",
   "ci_status": "awaiting workflow publication permission",
   "unchanged_lab3_grammar": "src/tiger/parse/tiger.y",
-  "token_header_plan": "Preserve upstream declarations, generate a separate empty parser token interface in build/generated; do not link generated parser"
+  "token_header_plan": "Preserve upstream declarations, generate a separate empty parser token interface in build/generated; do not link generated parser",
+  "historical_scope": "These static checks preceded remote acceptance; see lab report for completed runtime evidence",
+  "accepted_implementation_commit": "0674d1ef0e30d76ad41580e25f85932f85e67094",
+  "accepted_run": 42163866601
 }

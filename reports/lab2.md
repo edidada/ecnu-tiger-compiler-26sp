@@ -1,5 +1,11 @@
 # ECNU Tiger 2026 春季 Lab2：词法分析
 
+## 公开远端验收结果（2026-11-07补记）
+
+实现提交 `0674d1ef0e30d76ad41580e25f85932f85e67094` 已由 [Actions 42163866601](https://github.com/edidada/ecnu-tiger-compiler-26sp/actions/runs/42163866601) 在 Ubuntu 24.04 Release 构建和执行成功：**68/68：54个原始用例和14个边界用例**。下载结果已存入 langnote 的 courses/lab-reports/ECNU-Tiger26-Lab2-results.json。远端分支与成功 run 的 SHA 已核对。本文此前“未执行/未发布”是开发阶段历史状态，以本节及最新完成的工作流为准。
+
+只证明公开用例及报告列出的附加检查，不宣称私有评分或完整后续实验完成。本地未编译或运行 C++。本次只补报告，自动工作流将核查文档提交后的最终 HEAD。
+
 ## 来源与实现
 
 上游为 `https://gitee.com/east-china-normal-university_ttb_cs/tiger-compiler-26sp` 的 `lab2` 分支（`624226351fb3cde7acb677613f11d60c8f9749a7`）；实验分支为 `edidada/lab2`。该课程为 ECNU 补充项目，不等同于 SJTU 当前期实验。
