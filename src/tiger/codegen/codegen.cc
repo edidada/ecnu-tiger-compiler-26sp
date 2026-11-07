@@ -68,7 +68,7 @@ void LabelStm::Munch(assem::InstrList &out,std::string_view) {out.Append(new ass
 void JumpStm::Munch(assem::InstrList &out,std::string_view) {Op(out,"jmp `j0\n",nullptr,nullptr,new assem::Targets(jumps_));}
 void CjumpStm::Munch(assem::InstrList &out,std::string_view fs) {
   auto left=left_->Munch(out,fs);auto snapshot=temp::TempFactory::NewTemp();Move(out,snapshot,left);
-  if(auto right=dynamic_cast<ConstExp *>(right_))Op(out,"cmpq $"+std::to_string(right->consti_)+", `s0\n",nullptr,Temps({snapshot}));
+  if(auto immediate=dynamic_cast<ConstExp *>(right_))Op(out,"cmpq $"+std::to_string(immediate->consti_)+", `s0\n",nullptr,Temps({snapshot}));
   else {auto right=right_->Munch(out,fs);Op(out,"cmpq `s0, `s1\n",nullptr,Temps({right,snapshot}));}
   if(!true_label_ || !false_label_)throw std::logic_error("Unpatched conditional label");
   Op(out,Branch(op_)+" `j0\n",nullptr,nullptr,new assem::Targets(new std::vector<temp::Label *>{true_label_}));

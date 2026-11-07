@@ -8,3 +8,5 @@
 
 
 3705775 的run 42381832661在远端编译失败，canon.h使用std::invalid_argument但缺少stdexcept直接包含。已补头文件，尚无运行成绩，不将0/0视为通过。
+
+0b3b3d8 的run 42423426441发现C++ if初始化变量的作用域包含else块，CjumpStm::Munch中right重声明。已重命名立即数变量，保留比较和跳转行为；该次仍无实验运行成绩。
