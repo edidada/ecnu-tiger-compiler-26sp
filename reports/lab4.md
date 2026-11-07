@@ -1,5 +1,13 @@
 # ECNU Tiger 26sp Lab4：语义分析与类型检查
 
+## 公开远端验收结果（2026-11-07补记）
+
+实现提交 `c9ae647c3fd431415833c473a3162cce5aae2aed` 已由 [Actions 42164107950](https://github.com/edidada/ecnu-tiger-compiler-26sp/actions/runs/42164107950) 在 Ubuntu 24.04 Release 构建和执行成功：**75/75：52个原始输入、22个附加程序和1个直接类型/作用域测试**。下载结果已存入 langnote 的 courses/lab-reports/ECNU-Tiger26-Lab4-results.json。远端分支与成功 run 的 SHA 已核对。本文此前“未执行/未发布”是开发阶段历史状态，以本节及最新完成的工作流为准。
+
+只证明公开用例及报告列出的附加检查，不宣称私有评分或完整后续实验完成。本地未编译或运行 C++。本次只补报告，自动工作流将核查文档提交后的最终 HEAD。
+
+test50 没有原始参考输出，按已公开说明的语言规则检查循环外 break；test33 额外恢复诊断保留在 JSON 中，未隐藏。
+
 ## 来源与实现
 
 上游为 https://gitee.com/east-china-normal-university_ttb_cs/tiger-compiler-26sp 的 lab4 分支，起点 bf1ae63a3ce3caf48ffebf6c1f1bff0ac369ad92。工作分支 edidada/lab4。作为 ECNU 补充课程记录，不替代 SJTU 当前课程受限材料。

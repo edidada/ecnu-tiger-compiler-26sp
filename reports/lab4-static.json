@@ -44,5 +44,8 @@
   ],
   "build": "not-run",
   "runtime": "not-run",
-  "ci": "not-published"
+  "ci": "not-published",
+  "historical_scope": "These static checks preceded remote acceptance; see lab report for completed runtime evidence",
+  "accepted_implementation_commit": "c9ae647c3fd431415833c473a3162cce5aae2aed",
+  "accepted_run": 42164107950
 }
