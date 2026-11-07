@@ -10,3 +10,6 @@
 
 
 65982f9 的run 42380273388已成功，55/55：17原AST、30独立IR、8语义拒绝。初次164a29f仅因view shift条件表达式混用两个派生指针编译失败，65982f9已修正。进一步补20份官方运行输出（16普通程序+merge的4组标准输入）、专门帧布局检查，要求形参搬移、栈参数偏移、独立局部存储、outgoing最大值及SysV调用前16字节对齐。虚拟FP为入口RSP，FrameSize按16k+8计算。新增部分仍待新的远端最终HEAD验证；解释器结果不是原生后端验收。
+
+
+f1d716c 的run 42380518499为75/76：仅官方qsort在IR严格模式触发未映射读取；帧布局通过。源码quicksort先初始化key=list[left]才判断left<right，递归末次left=16产生一次未使用的越界读。仓库原scripts/lab5_test/state_table.py::load_mem明确对未映射地址返回0xbaadbeef。新增显式--official-memory仅用于20组官方输出对照，要求qsort恰好1次、其他官方程序0次未映射读；30自建有效程序仍默认严格，必须0次未映射读；额外要求原qsort在严格模式继续报错。没有修改原程序/参考结果，也不把官方运行时的宽松内存模型当作越界安全证明。IR helper标签同步为官方运行时的init_array/alloc_record/string_equal命名；string_compare及完整字符串库由独立IR测试运行时验证，不声明原生后端库已补齐。

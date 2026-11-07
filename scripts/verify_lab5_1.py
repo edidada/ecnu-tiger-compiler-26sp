@@ -78,16 +78,20 @@ def main():
             for stdin in inputs:
                 name=source.stem+('/'+stdin.stem if stdin else '')
                 ref=ROOT/'testdata/lab5or6/refs'/('merge/'+stdin.stem+'.out' if stdin else source.stem+'.out')
-                p=call([str(ROOT/'build/lab5_ir'),str(source)],input=stdin.read_text() if stdin else '',timeout=30)
+                p=call([str(ROOT/'build/lab5_ir'),str(source),'--official-memory'],input=stdin.read_text() if stdin else '',timeout=30)
                 (OUT/('official-ir-'+name.replace('/','-')+'.txt')).write_text(p.stdout+'\nSTDERR\n'+p.stderr)
-                records.append({'kind':'official_ir_output','name':name,'passed':p.returncode==0 and 'IR_RESULT' in p.stderr and normalized(p.stdout)==normalized(ref.read_text()),'reference_sha256':hashlib.sha256(ref.read_bytes()).hexdigest()})
+                reads=re.search(r'UNMAPPED_READS (\d+)',p.stderr)
+                records.append({'kind':'official_ir_output','name':name,'passed':p.returncode==0 and 'IR_RESULT' in p.stderr and normalized(p.stdout)==normalized(ref.read_text()) and bool(reads) and int(reads[1])==(1 if source.stem=='qsort' else 0),'unmapped_reads':int(reads[1]) if reads else None,'memory_policy':'provided StateTable.load_mem returns 0xbaadbeef for missing addresses; qsort has one unused out-of-bounds base-case read','reference_sha256':hashlib.sha256(ref.read_bytes()).hexdigest()})
+        strict=call([str(ROOT/'build/lab5_ir'),str(ROOT/'testdata/lab5or6/testcases/qsort.tig')],timeout=30)
+        (OUT/'qsort-strict.txt').write_text(strict.stdout+strict.stderr)
+        records.append({'kind':'fixture_boundary','name':'qsort_strict_rejects_unmapped_read','passed':strict.returncode==3 and 'Unmapped IR memory read' in strict.stderr})
         cases=OUT/'inputs';cases.mkdir(exist_ok=True)
         for name,source,stdout,result in POSITIVE:
             path=cases/f'{name}.tig';path.write_text(source,encoding='utf-8')
             p=call([str(ROOT/'build/lab5_ir'),str(path)],timeout=15)
             (OUT/f'ir-{name}.txt').write_text(p.stdout+'\nSTDERR\n'+p.stderr)
             match=re.search(r'IR_RESULT (-?\d+) STEPS (\d+)',p.stderr)
-            records.append({'kind':'ir_execution','name':name,'passed':p.returncode==0 and p.stdout==stdout and bool(match) and int(match[1])==result,'expected_stdout':stdout,'actual_stdout':p.stdout,'expected_result':result,'actual_result':int(match[1]) if match else None})
+            records.append({'kind':'ir_execution','name':name,'passed':p.returncode==0 and p.stdout==stdout and bool(match) and int(match[1])==result and 'UNMAPPED_READS 0' in p.stderr,'expected_stdout':stdout,'actual_stdout':p.stdout,'expected_result':result,'actual_result':int(match[1]) if match else None})
         for name,source in NEGATIVE:
             path=cases/f'bad-{name}.tig';path.write_text(source,encoding='utf-8')
             p=call([str(ROOT/'build/lab5_ir'),str(path)],timeout=15)

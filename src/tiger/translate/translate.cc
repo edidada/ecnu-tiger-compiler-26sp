@@ -160,7 +160,7 @@ tr::ExpAndTy *OpExp::Translate(env::VEnvPtr v, env::TEnvPtr t, tr::Level *l, tem
   if(left->ty_->ActualTy()==type::StringTy::Instance()) {
     bool equality=oper_==EQ_OP || oper_==NEQ_OP;
     auto args=new tree::ExpList({a,b});
-    a=frame::ExternalCall(equality?"stringEqual":"stringCompare",args);
+    a=frame::ExternalCall(equality?"string_equal":"string_compare",args);
     b=new tree::ConstExp(equality?1:0);
   }
   auto jump=new tree::CjumpStm(op,a,b,nullptr,nullptr);
@@ -169,7 +169,7 @@ tr::ExpAndTy *OpExp::Translate(env::VEnvPtr v, env::TEnvPtr t, tr::Level *l, tem
 tr::ExpAndTy *RecordExp::Translate(env::VEnvPtr v, env::TEnvPtr t, tr::Level *l, temp::Label *done, err::ErrorMsg *e) const {
   auto ty=t->Look(typ_);auto reg=temp::TempFactory::NewTemp();int offset=0;
   auto args=new tree::ExpList({new tree::ConstExp(static_cast<int>(fields_->GetList().size())*8)});
-  tree::Stm *s=new tree::MoveStm(new tree::TempExp(reg),frame::ExternalCall("allocRecord",args));
+  tree::Stm *s=new tree::MoveStm(new tree::TempExp(reg),frame::ExternalCall("alloc_record",args));
   for(auto field:fields_->GetList()) {
     auto value=field->exp_->Translate(v,t,l,done,e);
     s=Seq(s,new tree::MoveStm(new tree::MemExp(new tree::BinopExp(tree::PLUS_OP,new tree::TempExp(reg),new tree::ConstExp(offset))),value->exp_->UnEx()));offset+=8;
@@ -237,7 +237,7 @@ tr::ExpAndTy *LetExp::Translate(env::VEnvPtr v, env::TEnvPtr t, tr::Level *l, te
 }
 tr::ExpAndTy *ArrayExp::Translate(env::VEnvPtr v, env::TEnvPtr t, tr::Level *l, temp::Label *done, err::ErrorMsg *e) const {
   auto size=size_->Translate(v,t,l,done,e),init=init_->Translate(v,t,l,done,e);
-  return Value(frame::ExternalCall("initArray",new tree::ExpList({size->exp_->UnEx(),init->exp_->UnEx()})),t->Look(typ_));
+  return Value(frame::ExternalCall("init_array",new tree::ExpList({size->exp_->UnEx(),init->exp_->UnEx()})),t->Look(typ_));
 }
 tr::ExpAndTy *VoidExp::Translate(env::VEnvPtr v, env::TEnvPtr t, tr::Level *l, temp::Label *done, err::ErrorMsg *e) const {
   return Value(new tree::ConstExp(0),type::VoidTy::Instance());

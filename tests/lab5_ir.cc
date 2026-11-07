@@ -21,7 +21,8 @@ class Machine {
   std::unordered_map<temp::Label *,Word> literals;
   std::unordered_map<temp::Label *,frame::ProcFrag *> procedures;
   Word next=65536;
-  std::uint64_t steps=0;
+  std::uint64_t steps=0,unmapped_reads=0;
+  bool official_memory;
   void tick() {if(++steps>50000000)throw std::runtime_error("IR step budget exceeded");}
   Word alloc(Word words) {
     if(words<0 || words>1000000)throw std::runtime_error("Invalid allocation");
@@ -58,10 +59,10 @@ class Machine {
       if(start<0 || length<0 || start+length>static_cast<Word>(value.size()))throw std::runtime_error("substring range");
       return string(value.substr(start,length));
     }
-    if(name=="stringEqual")return text(args.at(0))==text(args.at(1));
-    if(name=="stringCompare") {int result=text(args.at(0)).compare(text(args.at(1)));return (result>0)-(result<0);}
-    if(name=="allocRecord")return alloc((args.at(0)+7)/8);
-    if(name=="initArray") {Word pointer=alloc(args.at(0));for(Word i=0;i<args[0];i++)memory[pointer+i*8]=args.at(1);return pointer;}
+    if(name=="string_equal")return text(args.at(0))==text(args.at(1));
+    if(name=="string_compare") {int result=text(args.at(0)).compare(text(args.at(1)));return (result>0)-(result<0);}
+    if(name=="alloc_record")return alloc((args.at(0)+7)/8);
+    if(name=="init_array") {Word pointer=alloc(args.at(0));for(Word i=0;i<args[0];i++)memory[pointer+i*8]=args.at(1);return pointer;}
     if(name=="exit")throw Exit{static_cast<int>(args.at(0))};
     throw std::runtime_error("Unknown external call: "+name);
   }
@@ -70,7 +71,12 @@ class Machine {
     if(auto c=dynamic_cast<tree::ConstExp *>(e))return c->consti_;
     if(auto t=dynamic_cast<tree::TempExp *>(e))return a.regs.at(t->temp_);
     if(auto n=dynamic_cast<tree::NameExp *>(e))return literals.at(n->name_);
-    if(auto m=dynamic_cast<tree::MemExp *>(e))return memory.at(eval(m->exp_,a));
+    if(auto m=dynamic_cast<tree::MemExp *>(e)) {
+      Word address=eval(m->exp_,a);auto found=memory.find(address);
+      if(found!=memory.end())return found->second;
+      if(official_memory) {++unmapped_reads;return 0xbaadbeef;}
+      throw std::runtime_error("Unmapped IR memory read at "+std::to_string(address));
+    }
     if(auto s=dynamic_cast<tree::EseqExp *>(e)) {execute(s->stm_,a);return eval(s->exp_,a);}
     if(auto b=dynamic_cast<tree::BinopExp *>(e)) {
       Word left=eval(b->left_,a),right=eval(b->right_,a);
@@ -135,6 +141,7 @@ class Machine {
     execute(proc->body_,a);return a.regs.at(reg_manager->ReturnValue());
   }
 public:
+  explicit Machine(bool compatibility):official_memory(compatibility) {}
   Word run() {
     frame::ProcFrag *main=nullptr;
     for(auto frag:frags->GetList()) {
@@ -144,12 +151,12 @@ public:
       }
     }
     if(!main)throw std::runtime_error("Missing main fragment");
-    Word value=invoke(main,{});std::cerr<<"IR_RESULT "<<value<<" STEPS "<<steps<<"\n";return value;
+    Word value=invoke(main,{});std::cerr<<"IR_RESULT "<<value<<" STEPS "<<steps<<" UNMAPPED_READS "<<unmapped_reads<<"\n";return value;
   }
 };
 }
 int main(int argc,char **argv) {
-  if(argc!=2)return 2;
+  if(argc<2 || argc>3 || (argc==3 && std::string(argv[2])!="--official-memory"))return 2;
   reg_manager=new frame::X64RegManager();frags=new frame::Frags();
   try {
     Parser parser(argv[1],std::cerr);parser.parse();
@@ -158,7 +165,7 @@ int main(int argc,char **argv) {
     esc::EscFinder finder(std::move(tree));finder.FindEscape();
     tr::ProgTr translator(finder.TransferAbsynTree(),std::move(errors));translator.Translate();
     errors=translator.TransferErrormsg();if(errors->AnyErrors())return 1;
-    Machine machine;machine.run();return 0;
+    Machine machine(argc==3);machine.run();return 0;
   } catch(const Exit &exit) {return exit.code;}
   catch(const std::exception &error) {std::cerr<<"IR_ERROR "<<error.what()<<"\n";return 3;}
   catch(const Transfer &) {std::cerr<<"IR_ERROR unresolved control label\n";return 3;}
