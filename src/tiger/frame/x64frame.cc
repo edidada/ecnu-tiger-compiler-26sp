@@ -127,7 +127,8 @@ frame::Frame *NewFrame(temp::Label *name, std::list<bool> formals) {
     else incoming=new tree::MemExp(new tree::BinopExp(tree::PLUS_OP,
         new tree::TempExp(reg_manager->FramePointer()),new tree::ConstExp((index-6+1)*8)));
     auto move=new tree::MoveStm(access->ToExp(new tree::TempExp(reg_manager->FramePointer())),incoming);
-    frame->view_shift=frame->view_shift?new tree::SeqStm(frame->view_shift,move):move;
+    if(frame->view_shift)frame->view_shift=new tree::SeqStm(frame->view_shift,move);
+    else frame->view_shift=move;
     ++index;
   }
   return frame;
