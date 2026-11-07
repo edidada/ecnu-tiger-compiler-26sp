@@ -68,16 +68,25 @@ protected:
 
 class Access {
 public:
-  /* TODO: Put your lab5 code here */
-
-  
+  virtual tree::Exp *ToExp(tree::Exp *frame_ptr) const = 0;
   virtual ~Access() = default;
   
 };
 
 class Frame {
-  /* TODO: Put your lab5 code here */
-
+public:
+  int word_size_, offset_, outgo_size_=0;
+  temp::Label *name_;
+  std::list<Access *> *formals_;
+  Frame(int word_size,int offset,temp::Label *name,std::list<Access *> *formals)
+      :word_size_(word_size),offset_(offset),name_(name),formals_(formals) {}
+  virtual ~Frame()=default;
+  virtual std::string GetLabel() const=0;
+  virtual temp::Label *Name() const=0;
+  virtual std::list<Access *> *Formals() const=0;
+  virtual Access *AllocLocal(bool escape)=0;
+  virtual void AllocOutgoSpace(int size)=0;
+  int FrameSize() const {return ((-offset_+outgo_size_+15)/16)*16;}
 };
 
 /**
@@ -116,9 +125,9 @@ private:
   std::list<Frag*> frags_;
 };
 
-/* TODO: Put your lab5 code here */
-
-/* End for lab5 code */
+Frame *NewFrame(temp::Label *name,std::list<bool> formals);
+tree::Exp *ExternalCall(std::string_view name,tree::ExpList *args);
+tree::Stm *ProcEntryExit1(Frame *frame,tree::Stm *body);
 
 } // namespace frame
 

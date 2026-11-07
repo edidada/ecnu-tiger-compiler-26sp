@@ -1,4 +1,6 @@
 #include "tiger/frame/x64frame.h"
+#include <array>
+#include <algorithm>
 
 extern frame::RegManager *reg_manager;
 
@@ -78,7 +80,7 @@ public:
   explicit InFrameAccess(int offset) : offset(offset) {}
   /* TODO: Put your lab5 code here */
   tree::Exp *ToExp(tree::Exp *frame_ptr) const override {
-
+    return new tree::MemExp(new tree::BinopExp(tree::PLUS_OP,frame_ptr,new tree::ConstExp(offset)));
   }
   /* End for lab5 code */
 };
@@ -90,9 +92,7 @@ public:
 
   explicit InRegAccess(temp::Temp *reg) : reg(reg) {}
   /* TODO: Put your lab5 code here */
-  tree::Exp *ToExp(tree::Exp *framePtr) const override {
-  
-  }
+  tree::Exp *ToExp(tree::Exp *) const override { return new tree::TempExp(reg); }
   /* End for lab5 code */
 };
 
@@ -110,16 +110,27 @@ public:
     return formals_;
   }
   frame::Access *AllocLocal(bool escape) override {
-    /* TODO: Put your lab5 code here */
+    if(!escape)return new InRegAccess(temp::TempFactory::NewTemp());
+    offset_-=word_size_;return new InFrameAccess(offset_);
   }
-  void AllocOutgoSpace(int size) override {
-    /* TODO: Put your lab5 code here */
-  }
+  void AllocOutgoSpace(int size) override { outgo_size_=std::max(outgo_size_,size); }
   /* End for lab5 code */
 };
 
 frame::Frame *NewFrame(temp::Label *name, std::list<bool> formals) {
-  /* TODO: Put your lab5 code here */
+  auto frame=new X64Frame(name,new std::list<Access *>());
+  auto regs=reg_manager->ArgRegs()->GetList();auto reg=regs.begin();int index=0;
+  for(bool escape:formals) {
+    auto access=frame->AllocLocal(escape);frame->formals_->push_back(access);
+    tree::Exp *incoming;
+    if(reg!=regs.end())incoming=new tree::TempExp(*reg++);
+    else incoming=new tree::MemExp(new tree::BinopExp(tree::PLUS_OP,
+        new tree::TempExp(reg_manager->FramePointer()),new tree::ConstExp((index-6+1)*8)));
+    auto move=new tree::MoveStm(access->ToExp(new tree::TempExp(reg_manager->FramePointer())),incoming);
+    frame->view_shift=frame->view_shift?new tree::SeqStm(frame->view_shift,move):move;
+    ++index;
+  }
+  return frame;
 }
 
 tree::Exp *ExternalCall(std::string_view s, tree::ExpList *args) {

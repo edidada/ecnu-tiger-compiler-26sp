@@ -9,6 +9,7 @@ void ProgSem::FillBaseTEnv() {
 }
 
 void ProgSem::FillBaseVEnv() {
+  venv_->Enter(sym::Symbol::UniqueSymbol("not"),new env::FunEntry(new type::TyList(type::IntTy::Instance()),type::IntTy::Instance()));
   type::Ty *result;
   type::TyList *formals;
 
@@ -69,6 +70,7 @@ void ProgTr::FillBaseTEnv() {
 }
 
 void ProgTr::FillBaseVEnv() {
+  venv_->Enter(sym::Symbol::UniqueSymbol("not"),new env::FunEntry(main_level_.get(),nullptr,new type::TyList(type::IntTy::Instance()),type::IntTy::Instance()));
   type::Ty *result;
   type::TyList *formals;
 

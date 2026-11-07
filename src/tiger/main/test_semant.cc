@@ -7,8 +7,8 @@
 #include "tiger/semant/semant.h"
 
 // define here to pass compilation
-frame::RegManager *reg_manager;
-frame::Frags *frags;
+extern frame::RegManager *reg_manager;
+extern frame::Frags *frags;
 
 int main(int argc, char **argv) {
   std::unique_ptr<absyn::AbsynTree> absyn_tree;

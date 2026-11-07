@@ -18,7 +18,7 @@ class Level;
 
 class PatchList {
 public:
-  void DoPatch(temp::Label *label) {
+  void DoPatch(temp::Label *label) const {
     for(auto &patch : patch_list_) *patch = label;
   }
 
