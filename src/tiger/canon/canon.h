@@ -2,6 +2,7 @@
 #define TIGER_CANON_CANON_H_
 
 #include <cstdio>
+#include <stdexcept>
 #include <list>
 #include <memory>
 #include <vector>
