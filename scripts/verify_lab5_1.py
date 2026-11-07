@@ -57,7 +57,7 @@ def main():
     OUT.mkdir(parents=True,exist_ok=True)
     records=[]
     try:
-        for args in [['cmake','-S','.','-B','build','-DCMAKE_BUILD_TYPE=Release'],['cmake','--build','build','--parallel','2','--target','test_translate','lab5_ir','test_lex','test_parse','test_semant']]:
+        for args in [['cmake','-S','.','-B','build','-DCMAKE_BUILD_TYPE=Release'],['cmake','--build','build','--parallel','2','--target','test_translate','lab5_ir','lab5_frame','test_lex','test_parse','test_semant']]:
             p=call(args,timeout=300)
             with (OUT/'build.log').open('a',encoding='utf-8') as f:f.write(p.stdout+p.stderr)
             if p.returncode:raise RuntimeError('Remote Release build failed; inspect build.log')
@@ -67,6 +67,20 @@ def main():
             actual=p.stdout+p.stderr;expected=ref.read_text()
             (OUT/f'official-{path.stem}.txt').write_text(actual)
             records.append({'kind':'official_escape_ast','name':path.stem,'passed':p.returncode==0 and actual==expected,'reference_sha256':hashlib.sha256(ref.read_bytes()).hexdigest()})
+        p=call([str(ROOT/'build/lab5_frame')],timeout=15)
+        (OUT/'frames.txt').write_text(p.stdout+p.stderr)
+        records.append({'kind':'frame_layout','name':'SysV_formals_locals_outgoing','passed':p.returncode==0 and p.stdout=='frame checks passed\n'})
+        # Same whitespace/blank-line tolerance as the official diff -w -B.
+        def normalized(text):
+            return [re.sub(r'[ \t\r\v\f]','',line) for line in text.splitlines() if line.strip()]
+        for source in sorted((ROOT/'testdata/lab5or6/testcases').glob('*.tig')):
+            inputs=sorted((source.parent/'merge').glob('*.in')) if source.stem=='merge' else [None]
+            for stdin in inputs:
+                name=source.stem+('/'+stdin.stem if stdin else '')
+                ref=ROOT/'testdata/lab5or6/refs'/('merge/'+stdin.stem+'.out' if stdin else source.stem+'.out')
+                p=call([str(ROOT/'build/lab5_ir'),str(source)],input=stdin.read_text() if stdin else '',timeout=30)
+                (OUT/('official-ir-'+name.replace('/','-')+'.txt')).write_text(p.stdout+'\nSTDERR\n'+p.stderr)
+                records.append({'kind':'official_ir_output','name':name,'passed':p.returncode==0 and 'IR_RESULT' in p.stderr and normalized(p.stdout)==normalized(ref.read_text()),'reference_sha256':hashlib.sha256(ref.read_bytes()).hexdigest()})
         cases=OUT/'inputs';cases.mkdir(exist_ok=True)
         for name,source,stdout,result in POSITIVE:
             path=cases/f'{name}.tig';path.write_text(source,encoding='utf-8')

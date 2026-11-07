@@ -86,7 +86,8 @@ public:
   virtual std::list<Access *> *Formals() const=0;
   virtual Access *AllocLocal(bool escape)=0;
   virtual void AllocOutgoSpace(int size)=0;
-  int FrameSize() const {return ((-offset_+outgo_size_+15)/16)*16;}
+  // Virtual FP is entry RSP (8 modulo 16); the call-site RSP must be aligned.
+  int FrameSize() const {return ((-offset_+outgo_size_+8+15)/16)*16-8;}
 };
 
 /**
