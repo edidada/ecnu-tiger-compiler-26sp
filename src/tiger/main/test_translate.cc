@@ -4,8 +4,8 @@
 #include "tiger/parse/parser.h"
 #include "tiger/translate/translate.h"
 
-frame::RegManager *reg_manager;
-frame::Frags *frags;
+extern frame::RegManager *reg_manager;
+extern frame::Frags *frags;
 
 int main(int argc, char **argv) {
   std::string_view fname;

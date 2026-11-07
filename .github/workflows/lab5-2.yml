@@ -1,0 +1,23 @@
+name: Tiger Lab5-2 instruction selection
+on:
+  push:
+    branches: [edidada/lab5-2]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lab5-2:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install generators
+        run: sudo apt-get update && sudo apt-get install -y flexc++ bisonc++
+      - name: Build Release and execute generated assembly
+        run: python3 scripts/verify_lab5_2.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tiger-lab5-2-results
+          path: reports/lab5-2-results/
+          if-no-files-found: warn
