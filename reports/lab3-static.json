@@ -7,7 +7,7 @@
     "test49"
   ],
   "additional_cases": {
-    "snapshots": 13,
+    "snapshots": 14,
     "positions": 6,
     "negatives": 8
   },
@@ -22,5 +22,8 @@
   "build": "not-run",
   "runtime": "not-run",
   "remote_ci": "not-published",
-  "source_positions": "%ltype int; scanner d_loc_ byte offsets; explicit @@ propagation and @n constructor positions; not runtime-verified"
+  "source_positions": "%ltype int; scanner d_loc_ byte offsets; explicit @@ propagation and @n constructor positions; not runtime-verified",
+  "historical_scope": "These static checks preceded remote acceptance; see lab report for completed runtime evidence",
+  "accepted_implementation_commit": "21add607dd31c8aad87b19732dcd09b9e81788fc",
+  "accepted_run": 42164109227
 }

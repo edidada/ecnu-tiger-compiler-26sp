@@ -1,5 +1,11 @@
 # ECNU Tiger 26sp Lab3：语法分析
 
+## 公开远端验收结果（2026-11-07补记）
+
+实现提交 `21add607dd31c8aad87b19732dcd09b9e81788fc` 已由 [Actions 42164109227](https://github.com/edidada/ecnu-tiger-compiler-26sp/actions/runs/42164109227) 在 Ubuntu 24.04 Release 构建和执行成功：**80/80：51个原始输入和29个附加检查**。下载结果已存入 langnote 的 courses/lab-reports/ECNU-Tiger26-Lab3-results.json。远端分支与成功 run 的 SHA 已核对。本文此前“未执行/未发布”是开发阶段历史状态，以本节及最新完成的工作流为准。
+
+只证明公开用例及报告列出的附加检查，不宣称私有评分或完整后续实验完成。本地未编译或运行 C++。本次只补报告，自动工作流将核查文档提交后的最终 HEAD。
+
 ## 来源和实现范围
 
 上游：https://gitee.com/east-china-normal-university_ttb_cs/tiger-compiler-26sp ，lab3 起点 `7681461c2ab9a184805ba17aa6ab9dce87827c84`。工作分支 `edidada/lab3`，作为 ECNU 补充课程，不替代 SJTU 当前身份受限的实验材料。
