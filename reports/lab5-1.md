@@ -1,5 +1,13 @@
 # Lab5-1：逃逸分析、栈帧及IR翻译
 
+## 已通过的公开验证（2026-11-07）
+
+实现提交54d2fecefc8647fd7fec9aae08c1e72759a4e7ca，[Actions 42380801948](https://github.com/edidada/ecnu-tiger-compiler-26sp/actions/runs/42380801948)已完成且成功，下载产物77/77：17官方逃逸AST、20官方程序/输入输出、30独立严格IR执行、8语义拒绝、1帧布局及1原qsort严格内存拒绝边界。Release构建test_lex/test_parse/test_semant/test_translate及IR/帧测试目标全部成功。没有修改官方测试或参考文件；qsort在显式官方内存模式恰有1次未映射读，其他官方用例为0，严格模式继续报错。
+
+本次是Lab5-1逃逸/帧/IR公开验收，不是原生后端或学校私有评分。原生寄存器分配、指令选择和Lab5-2/6仍待实现。报告提交后的最终HEAD另在langnote机器证据中记录并复验。以下保留实现及失败排查历史，其中“待验证”描述当时状态。
+
+## 实现与历史记录
+
 分支edidada/lab5-1，来源为ECNU26sp官方lab5-1分支f4cd34c8e0c46921084a2a41c5dda0b828d7074e。承接本人已验收Lab4的词法/语法/语义实现，保留本阶段新增AST接口。它是另行注明的ECNU补充项目，不替换SJTU当期课程starter。
 
 实现词法函数深度的逃逸遍历、变量初始化器/for上下界作用域、参数遮蔽；8字节帧访问、逃逸局部、寄存器/栈形参搬移、callee-save和outgoing空间；Ex/Nx/Cx及backpatch、短路条件、循环/溢出安全的for终止、记录/数组、类型及互递归函数、静态链。按仓库NewLevel约定，隐藏静态链是最后一个形参和实参；外部调用保持原magic marker约定。
