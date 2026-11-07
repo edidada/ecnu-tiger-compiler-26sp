@@ -1,5 +1,11 @@
 # ECNU Tiger 26sp Lab1：直线语言解释器（未验收）
 
+## 公开远端验收结果（2026-11-07补记）
+
+实现提交 `0616299b4b018e47c070cc6798ce5bd11a3d5c36` 已由 [Actions 42163866769](https://github.com/edidada/ecnu-tiger-compiler-26sp/actions/runs/42163866769) 在 Ubuntu 24.04 Release 构建和执行成功：**原始7个用例全部通过，公开评分100；副作用回归通过**。下载结果已存入 langnote 的 courses/lab-reports/ECNU-Tiger26-Lab1-results.json。远端分支与成功 run 的 SHA 已核对。本文此前“未执行/未发布”是开发阶段历史状态，以本节及最新完成的工作流为准。
+
+只证明公开用例及报告列出的附加检查，不宣称私有评分或完整后续实验完成。本地未编译或运行 C++。本次只补报告，自动工作流将核查文档提交后的最终 HEAD。
+
 上游为CSDIY原SJTU条目补充引用的华东师大Gitee框架，25sp链接现重定向26sp。与SJTU SE3355 2026材料分开发放，不能据此把SJTU受限starter标为取得。GitHub为保留完整历史的镜像，非平台原生fork。
 
 分支edidada/lab1基于38daecedcbabd9fcde2e66d6f464bfc91aac8ec6。补Exp/ExpList虚接口、顺序语句、赋值、print的最大参数分析及解释；使用不可变链环境，表达式副作用按从左到右传递。修复上游OpExp右操作数仍用旧环境的问题，未绑定变量在Release中明确报错。
