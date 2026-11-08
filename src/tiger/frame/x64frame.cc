@@ -114,6 +114,9 @@ public:
     offset_-=word_size_;return new InFrameAccess(offset_);
   }
   void AllocOutgoSpace(int size) override { outgo_size_=std::max(outgo_size_,size); }
+  int AllocSpillSlot() override {
+    offset_-=word_size_;return offset_;
+  }
   /* End for lab5 code */
 };
 

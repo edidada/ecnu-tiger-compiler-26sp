@@ -88,6 +88,10 @@ public:
   virtual std::list<Access *> *Formals() const=0;
   virtual Access *AllocLocal(bool escape)=0;
   virtual void AllocOutgoSpace(int size)=0;
+  // Reserves one word of frame storage for a spilled register and returns
+  // its FP-relative displacement. FrameSize() grows accordingly so the
+  // printed prologue, .set size and spill addressing stay consistent.
+  [[nodiscard]] virtual int AllocSpillSlot() = 0;
   // Virtual FP is entry RSP (8 modulo 16); the call-site RSP must be aligned.
   int FrameSize() const {return ((-offset_+outgo_size_+8+15)/16)*16-8;}
 };

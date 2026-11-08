@@ -11,7 +11,8 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/tiger/parse/parse.cc $
   COMMAND ${BISONCPP} tiger.y WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/tiger/parse DEPENDS src/tiger/parse/tiger.y)
 file(GLOB TIGER_SOURCES src/tiger/symbol/*.cc src/tiger/absyn/*.cc src/tiger/errormsg/*.cc src/tiger/env/*.cc
   src/tiger/escape/*.cc src/tiger/semant/*.cc src/tiger/frame/*.cc src/tiger/translate/*.cc
-  src/tiger/canon/*.cc src/tiger/codegen/*.cc src/tiger/output/*.cc)
+  src/tiger/canon/*.cc src/tiger/codegen/*.cc src/tiger/output/*.cc
+  src/tiger/liveness/*.cc src/tiger/regalloc/*.cc)
 add_library(tiger_lab5 STATIC ${TIGER_SOURCES} src/tiger/lex/lex.cc src/tiger/parse/parse.cc)
 foreach(name lex parse semant translate)
   add_executable(test_${name} src/tiger/main/test_${name}.cc)
@@ -26,3 +27,7 @@ add_executable(lab5_ir tests/lab5_ir.cc)
 target_link_libraries(lab5_ir tiger_lab5)
 add_executable(lab5_frame tests/lab5_frame.cc)
 target_link_libraries(lab5_frame tiger_lab5)
+
+add_executable(tiger-compiler src/tiger/main/main.cc)
+target_link_libraries(tiger-compiler tiger_lab5)
+add_dependencies(tiger-compiler lex_parse_sources)
