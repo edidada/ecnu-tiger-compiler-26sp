@@ -84,34 +84,27 @@ private:
   }
 
   void SimplifySelect() {
-    while (colorable_.size() + stack_.size() < adjacency_.size()) {
+    std::set<live::INodePtr> active(colorable_);
+    while (!active.empty()) {
+      auto degree = [&](live::INodePtr node) {
+        int count = 0;
+        for (auto other : adjacency_.at(node)) {
+          if (active.count(other))
+            ++count;
+          else if (precolored_color_.count(other))
+            ++count;
+        }
+        return count;
+      };
       live::INodePtr pick = nullptr;
-      for (auto node : colorable_) {
-        if (adjacency_.at(node).size() < palette_.size() &&
-            (!pick || adjacency_.at(node).size() > adjacency_.at(pick).size()))
-          pick = node;
-      }
-      if (pick) {
-        colorable_.erase(pick);
-        stack_.push_back(pick);
-        for (auto other : adjacency_.at(pick))
-          adjacency_.at(other).erase(pick);
-        adjacency_.at(pick).clear();
-        continue;
-      }
-      // Optimistic potentialization: still push the highest-degree node and
-      // hope a color frees up during selection.
-      for (auto node : colorable_) {
-        if (!pick || adjacency_.at(node).size() > adjacency_.at(pick).size())
+      for (auto node : active) {
+        if (!pick || degree(node) > degree(pick))
           pick = node;
       }
       if (!pick)
         break;
-      colorable_.erase(pick);
+      active.erase(pick);
       stack_.push_back(pick);
-      for (auto other : adjacency_.at(pick))
-        adjacency_.at(other).erase(pick);
-      adjacency_.at(pick).clear();
     }
     while (!stack_.empty()) {
       auto node = stack_.back();
