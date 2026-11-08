@@ -58,7 +58,7 @@ TempSet ToSet(temp::TempList *list) {
   return set;
 }
 
-TempList *ToTempList(const TempSet &set) {
+temp::TempList *ToTempList(const TempSet &set) {
   auto list = new temp::TempList();
   for (auto temp : set)
     list->Append(temp);
