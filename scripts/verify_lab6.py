@@ -207,6 +207,7 @@ def main():
             target.write_bytes(source.read_bytes())
             logging=run([str(ROOT/'build/tiger-compiler'),str(target)],timeout=60)
             (log_harness/f'{source.stem}.txt').write_text(logging.stdout+'\nSTDERR\n'+logging.stderr)
+            announce(f'official {source.stem}: compiler rc={logging.returncode} stdout={len(logging.stdout)}B stderr={len(logging.stderr)}B')
             if logging.returncode:
                 records.append({'kind':'official_ra_execution','name':source.stem,'passed':False,'stage':'compiler','exit':logging.returncode});
                 continue
