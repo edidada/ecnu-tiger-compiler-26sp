@@ -33,6 +33,7 @@ int main(int argc, char **argv) {
       parser.parse();
       absyn_tree = parser.TransferAbsynTree();
       errormsg = parser.TransferErrormsg();
+      fprintf(stderr, "[cc] parse stage done\n");
     }
 
     {
@@ -42,6 +43,7 @@ int main(int argc, char **argv) {
       prog_sem.SemAnalyze();
       absyn_tree = prog_sem.TransferAbsynTree();
       errormsg = prog_sem.TransferErrormsg();
+      fprintf(stderr, "[cc] semant stage done\n");
     }
 
     {
@@ -50,6 +52,7 @@ int main(int argc, char **argv) {
       esc::EscFinder esc_finder(std::move(absyn_tree));
       esc_finder.FindEscape();
       absyn_tree = esc_finder.TransferAbsynTree();
+      fprintf(stderr, "[cc] escape stage done\n");
     }
 
     {
@@ -58,6 +61,7 @@ int main(int argc, char **argv) {
       tr::ProgTr prog_tr(std::move(absyn_tree), std::move(errormsg));
       prog_tr.Translate();
       errormsg = prog_tr.TransferErrormsg();
+      fprintf(stderr, "[cc] translate stage done\n");
     }
 
     if (errormsg->AnyErrors())
@@ -66,8 +70,10 @@ int main(int argc, char **argv) {
 
   {
     // Output assembly
+    fprintf(stderr, "[cc] entering codegen+RA\n");
     output::AssemGen assem_gen(fname);
     assem_gen.GenAssem(true);
+    fprintf(stderr, "[cc] assembly emitted\n");
   }
 
   return 0;

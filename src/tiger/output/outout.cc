@@ -72,6 +72,7 @@ void ProcFrag::OutputAssem(FILE *out, OutputPhase phase, bool need_ra) const {
     code_gen.Codegen();
     assem_instr = code_gen.TransferAssemInstr();
     TigerLog(assem_instr.get(), color);
+    if (need_ra)fprintf(stderr, "[cc] codegen stage done\n");
   }
 
   assem::InstrList *il = assem_instr.get()->GetInstrList();
