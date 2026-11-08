@@ -43,6 +43,8 @@ STACK_STORE=re.compile(r'movq \S+, (?:\d+|0x[0-9a-fA-F]+)\(%rsp\)$')
 
 def run(args,**kwargs):return subprocess.run(args,cwd=ROOT,text=True,capture_output=True,**kwargs)
 
+def announce(msg):print(f'[lab6] {msg}',flush=True)
+
 def normalized(text):
     return [re.sub(r'[ \t\r\v\f]','',line) for line in text.splitlines() if line.strip()]
 
@@ -179,22 +181,28 @@ def main():
         (OUT/'results.json').write_text(json.dumps({'commit':sha,'scope':'Lab6 graph-coloring register allocation over the Lab5-2 instruction selector: official 20 stay on the unmodified interpreter, extended 35 use the explicit adapter, spill rewriting runs until no spills remain; ReturnSink use/def stays IR-level; no native machine execution or private grading claim','tests':records,'passed':sum(1 for x in records if x['passed']),'total':len(records)},indent=2)+'\n')
     try:
         for args,label in [(['cmake','-S','.','-B','build','-DCMAKE_BUILD_TYPE=Release'],'configure'),(['cmake','--build','build','--parallel','2','--target','tiger-compiler'],'build')]:
-            p=run(args,timeout=300)
+            announce(f'{label} start')
+            p=run(args,timeout=1200)
+            announce(f'{label} rc={p.returncode}')
             with (OUT/'build.log').open('a') as f:f.write(p.stdout+p.stderr)
             if p.returncode:
                 records.append({'kind':'build','name':label,'passed':False})
+                print(p.stdout[-4000:]+p.stderr[-4000:])
                 raise RuntimeError(f'{label} failed; inspect build.log')
         official=sorted((ROOT/'testdata/lab5or6/testcases').glob('*.tig'))
+        announce('inventory loaded')
         if len(official)!=OFFICIAL_FILES:
             records.append({'kind':'fixture_inventory','name':'official tig files','passed':False,'found':len(official),'expected':OFFICIAL_FILES})
             raise SystemExit('official testcase inventory mismatch; do not accept')
         extended=json.loads((ROOT/'scripts/lab5_2_cases.json').read_text(encoding='utf-8'))
+        announce(f'extended cases {len(extended)}')
         if len(extended)!=EXTENDED_CASES:
             records.append({'kind':'fixture_inventory','name':'extended cases json','passed':False,'found':len(extended),'expected':EXTENDED_CASES})
             raise SystemExit('extended case inventory mismatch; do not accept')
         cases_dir=OUT/'cases';cases_dir.mkdir(parents=True,exist_ok=True)
         log_harness=OUT/'compiler-logs';log_harness.mkdir(parents=True,exist_ok=True)
-        for source in official:
+        for i,source in enumerate(sorted(official)):
+            announce(f'official {i+1}/{OFFICIAL_FILES}: {source.stem}')
             target=cases_dir/source.name
             target.write_bytes(source.read_bytes())
             logging=run([str(ROOT/'build/tiger-compiler'),str(target)],timeout=60)

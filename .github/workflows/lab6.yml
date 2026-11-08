@@ -14,7 +14,7 @@ jobs:
       - name: Install generators
         run: sudo apt-get update && sudo apt-get install -y flexc++ bisonc++
       - name: Verify RA on official 20, extended 35, boundaries, metadata and Lab5-1 regression
-        run: python3 scripts/verify_lab6.py
+        run: timeout 1500 python3 -u scripts/verify_lab6.py || { tail -40 reports/lab6-results/build.log 2>/dev/null; exit 1; }
       - uses: actions/upload-artifact@v4
         if: always()
         with:
