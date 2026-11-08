@@ -1,0 +1,11 @@
+name: lab6 probe
+on:
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: sleep 100s
+        run: sleep 100 && echo awake
