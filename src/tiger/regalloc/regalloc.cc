@@ -134,9 +134,6 @@ void RegAllocator::RegAlloc() {
     liveness.Liveness();
     col::Color color(liveness.GetLiveGraph());
     auto result = color.AssignColors();
-    fprintf(stderr, "[lab6] round %d: instruction count %zu, spill count %zu\n",
-            round, current.size(), result.spills->GetList().size());
-    fflush(stderr);
     if (result.spills->GetList().empty()) {
       coloring_ = result.coloring;
       il_ = Clone(current);

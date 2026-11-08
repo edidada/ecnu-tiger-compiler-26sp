@@ -13,8 +13,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install generators
         run: sudo apt-get update && sudo apt-get install -y flexc++ bisonc++
-      - name: Probe calm section
-        run: sleep 100 && echo calm-done
       - name: Verify RA on official 20, extended 35, boundaries, metadata and Lab5-1 regression
         run: timeout 1500 python3 -u scripts/verify_lab6.py || { tail -40 reports/lab6-results/build.log 2>/dev/null; exit 1; }
       - uses: actions/upload-artifact@v4
