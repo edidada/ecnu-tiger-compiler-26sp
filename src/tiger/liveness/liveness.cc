@@ -99,10 +99,10 @@ void LiveGraphFactory::LiveMap() {
       auto in = instr_use;
       auto rest = SetMinus(out, instr_def);
       in.insert(rest.begin(), rest.end());
-      auto out_in = in_->Look(node);
-      auto out_old = out_in ? ToSet(out_in) : TempSet();
-      auto in_in = in_->Look(node);
-      auto in_old = in_in ? ToSet(in_in) : TempSet();
+      auto out_ptr = out_->Look(node);
+      auto out_old = out_ptr ? ToSet(out_ptr) : TempSet();
+      auto in_ptr = in_->Look(node);
+      auto in_old = in_ptr ? ToSet(in_ptr) : TempSet();
       if (out_old != out || in_old != in) {
         changed = true;
         in_->Set(node, ToTempList(in));
