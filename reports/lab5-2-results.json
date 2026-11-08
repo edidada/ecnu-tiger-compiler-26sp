@@ -1,0 +1,1238 @@
+{
+  "commit": "be13680591d1e2803d5b912b88aeb773733728e2",
+  "scope": "Lab5-2 instruction selection on generated virtual-register assembly: official interpreter path untouched for the official 20 cases; extended 35 run on the explicit adapter; ReturnSink use/def is IR-level only and invisible in printed text; no native allocation or private grading claim",
+  "tests": [
+    {
+      "kind": "official_virtual_assembly",
+      "name": "bsearch",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "58671e3133b1ced5e2ede9f48a086d3f0d0b68a2136be5d913bbbf31fa0731d7",
+      "reference_sha256": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "dec2bin",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "98a2b861a67f0ff1b7a9d44b867d2e27770f6b21f71f196c1c2a764eef5e3b62",
+      "reference_sha256": "0e0eb4c0ccda794d0a148028765ca3c11be9d2ce43139cc6c8f828a97887aed5"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "merge/test1",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "3647dcc8c827444d1c798e5503c8db663067551047d30c1844a492d839b37593",
+      "reference_sha256": "aa74e5e9e4dfee417e0847fde4a05b38f934f5b596de54349987661795ac0bf0"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "merge/test2",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "3647dcc8c827444d1c798e5503c8db663067551047d30c1844a492d839b37593",
+      "reference_sha256": "8c90963d8f3da9bf0465279550af369a2c6eb885f63e793ed53b47c3cfa30a2e"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "merge/test3",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "3647dcc8c827444d1c798e5503c8db663067551047d30c1844a492d839b37593",
+      "reference_sha256": "6c3d9ebcefc8af7c3d7ec2921b1179208c7769f45a18261ea98b13cb9c08bac0"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "merge/test4",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "3647dcc8c827444d1c798e5503c8db663067551047d30c1844a492d839b37593",
+      "reference_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "prime",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "98b95a5fac07b3588497dfa86338d219187bacc05e782777bd5214c15de11e4b",
+      "reference_sha256": "04ff5f844d597f68edd8a0240db39bf8c6352dce883269a517a33339dd820195"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "qsort",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "460527cb75c72c9f2558a80667dd2f456a9cd122d1947302ace1f575bb40f170",
+      "reference_sha256": "06f688a172b8846c05e9dc34d63d84ff4ee9fc06c669c48ef7f291db0113e628"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "queens",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "50c24c3064e94fd362369298d506bb195150805ea016370ef51b009b0606bbbc",
+      "reference_sha256": "53d9c2a75f415f5133c802d2f3e07066be4dbfb79c18d61a540258e6233f1aa4"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "tbi",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "d857f5abcad599e1b78c39ba700535108567d63a347b1e1702b19aee5739dc74",
+      "reference_sha256": "d30256509aeb05f119bc174546b3341a199fbb1bd666872bdc0938889588140d"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "test_array",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "ea3db3be06e46cdaeb1d19828e205514b32c2d305054909707cfd8a4c4996379",
+      "reference_sha256": "f37508d21e9ebda7c2ebce28f2e9f3dc08f615271c0286e463e7e645e013583d"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "test_patch",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "774709f096c66702b24a4a1f95b2f0162340af1ae55f7d50dcada8b382b3ab7c",
+      "reference_sha256": "8786198ca54a0170fffd7c7df0c4e33993b36067c6775ab9864c7596ce178649"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "tfact",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "c9103aed4e67afce062bb38823917bb1f1e2c62bec76f3970f1edf28399f8827",
+      "reference_sha256": "4b8c4c67c5066c2d71cc7650eeb3f6e774e9cbbcea3252eacba190af6e87b0f9"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "tfo",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "8a74c445e2670e34c48948768362e40eb21d4caee0bf91b7d35df95df1336f4e",
+      "reference_sha256": "1be2e452b46d7a0d9656bbb1f768e8248eba1b75baed65f5d99eafa948899a6a"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "tif",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "6c47eface0e774cc8de53c27f82231137e4dae407834dbf4fc4da15fcf02bec9",
+      "reference_sha256": "19581e27de7ced00ff1ce50b2047e7a567c76b1cbaebabe5ef03f7c3017bb5b7"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "tifn",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "3133fd2f907ec0ab47031c16a29d6d923b3cc9104c024cee08775de9be89c10f",
+      "reference_sha256": "07d11988ebe3fb0cfdeb69f4be137249ef47ae12c384c1b2c91a4cb99fdc758d"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "tlink",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "e03c0ebdff4788060587aadd9c10c640d933d51405fab4a4bbfb20601395b617",
+      "reference_sha256": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "trec",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "9beccb3b02f7eabdd98c666af2b4258579b02daad6348c6b1c99cdf0a16b97a7",
+      "reference_sha256": "86e50149658661312a9e0b35558d84f6c6d3da797f552a9657fe0558ca40cdef"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "tree",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "2243be6a5261e5293c66cd4a22629e5de263aeafc4843487bd2dff56c1a9447f",
+      "reference_sha256": "4096d5b882bcd9e219b9ad2eedf4f0971c137ce965133df3d2789e456d8903f8"
+    },
+    {
+      "kind": "official_virtual_assembly",
+      "name": "twhi",
+      "passed": true,
+      "exit": 0,
+      "source_sha256": "7bfdca8a621dbf486e0d28158e9fba3c802d814204e8dbe2b7f9ad5b0ad2b450",
+      "reference_sha256": "3356c5a48de1d33855f507e9f679ea9cc666f1956fb39489cb3d0c44de15998e"
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "literal",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 42,
+      "actual_result": 42
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "arithmetic",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 32,
+      "actual_result": 32
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "factorial",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 120,
+      "actual_result": 120
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "capture",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "36",
+      "actual_stdout": "36",
+      "expected_result": 6,
+      "actual_result": 6
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "three_levels",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 28,
+      "actual_result": 28
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "mutual",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 2,
+      "actual_result": 2
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "stack_formals",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 46,
+      "actual_result": 46
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "arg_order",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 123,
+      "actual_result": 123
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "record_alias",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 13,
+      "actual_result": 13
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "recursive_record",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 7,
+      "actual_result": 7
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "array_alias",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 11,
+      "actual_result": 11
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "array_init_once",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 3,
+      "actual_result": 3
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "record_init_order",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 212,
+      "actual_result": 212
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "shadow_initializer",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 9,
+      "actual_result": 9
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "param_shadow",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 106,
+      "actual_result": 106
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "loop_bound_once",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 16,
+      "actual_result": 16
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "loop_max",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 1,
+      "actual_result": 1
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "empty_loop",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 0,
+      "actual_result": 0
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "loop_capture",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 6,
+      "actual_result": 6
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "while_break",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 3,
+      "actual_result": 3
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "break_inside_eseq",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 0,
+      "actual_result": 0
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "short_skip",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 0,
+      "actual_result": 0
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "short_run",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 2,
+      "actual_result": 2
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "discard_condition",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 7,
+      "actual_result": 7
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "nested_if",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 5,
+      "actual_result": 5
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "nil_join",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 1,
+      "actual_result": 1
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "string_functions",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "abcd",
+      "actual_stdout": "abcd",
+      "expected_result": 67,
+      "actual_result": 67
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "string_compare",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 11,
+      "actual_result": 11
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "reference_equality",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 1,
+      "actual_result": 1
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "type_alias",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 8,
+      "actual_result": 8
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "negative_dividend",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": -3,
+      "actual_result": -3
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "negative_divisor",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": -3,
+      "actual_result": -3
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "both_negative",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": 3,
+      "actual_result": 3
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "negative_remainder",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "",
+      "actual_stdout": "",
+      "expected_result": -2,
+      "actual_result": -2
+    },
+    {
+      "kind": "extended_adapter",
+      "name": "string_escapes",
+      "passed": true,
+      "exit": 0,
+      "expected_stdout": "a\"b\\c\u0000d",
+      "actual_stdout": "a\"b\\c\u0000d",
+      "expected_result": 7,
+      "actual_result": 7
+    },
+    {
+      "kind": "adapter_boundary",
+      "name": "adapter_accepts_wide_temp_registers",
+      "passed": true,
+      "exit": 0,
+      "marker": "ASM_RESULT 7"
+    },
+    {
+      "kind": "adapter_boundary",
+      "name": "idiv_truncates_toward_zero",
+      "passed": true,
+      "exit": 0,
+      "marker": "ASM_RESULT -3"
+    },
+    {
+      "kind": "adapter_boundary",
+      "name": "idiv_remainder_toward_zero",
+      "passed": true,
+      "exit": 0,
+      "marker": "ASM_RESULT -2"
+    },
+    {
+      "kind": "adapter_boundary",
+      "name": "adapter_rejects_unmapped_memory",
+      "passed": true,
+      "exit": 1,
+      "marker": "Unmapped assembly memory read"
+    },
+    {
+      "kind": "adapter_boundary",
+      "name": "adapter_preserves_string_escapes",
+      "passed": true,
+      "exit": 0,
+      "marker": "ASM_RESULT 7"
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "bsearch.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "dec2bin.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "merge.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "prime.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "qsort.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "queens.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "tbi.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "test_array.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "test_patch.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "tfact.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "tfo.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "tif.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "tifn.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "tlink.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "trec.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "tree.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "twhi.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "arg_order.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "arithmetic.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "array_alias.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "array_init_once.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "both_negative.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "break_inside_eseq.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "capture.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "discard_condition.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "empty_loop.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "factorial.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "literal.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "loop_bound_once.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "loop_capture.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "loop_max.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "mutual.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "negative_dividend.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "negative_divisor.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "negative_remainder.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "nested_if.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "nil_join.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "param_shadow.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "record_alias.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "record_init_order.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "recursive_record.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "reference_equality.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "shadow_initializer.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "short_run.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "short_skip.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "stack_formals.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "string_compare.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "string_escapes.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "string_functions.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "three_levels.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "type_alias.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "asm_flow_metadata",
+      "name": "while_break.tig",
+      "passed": true,
+      "problems": [],
+      "checks": [
+        "prologue_and_epilogue",
+        "idivq_after_cqto",
+        "frame_pointer_shapes",
+        "jump_targets_and_branch_pairs",
+        "outgoing_arguments_and_stack_slots"
+      ]
+    },
+    {
+      "kind": "lab5_1_regression",
+      "name": "copied verify_lab5_1.py",
+      "passed": true,
+      "exit": 0,
+      "passed_count": 77,
+      "total": 77,
+      "expected": 77
+    }
+  ],
+  "passed": 113,
+  "total": 113
+}
