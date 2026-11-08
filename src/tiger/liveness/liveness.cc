@@ -75,9 +75,17 @@ TempSet SetMinus(TempSet left, const TempSet &right) {
 
 void LiveGraphFactory::LiveMap() {
   auto nodes = flowgraph_->Nodes()->GetList();
+  int iteration = 0;
   bool changed = true;
+  fprintf(stderr, "[cc] liveness nodes %d iterations begin\n", (int)nodes.size());
   while (changed) {
     changed = false;
+    if (++iteration > 2048) {
+      fprintf(stderr, "[cc] liveness iteration %d exceed cap\n", iteration);
+      break;
+    }
+    if (iteration % 64 == 0)
+      fprintf(stderr, "[cc] liveness iteration %d\n", iteration);
     for (auto it = nodes.rbegin(); it != nodes.rend(); ++it) {
       auto node = *it;
       TempSet out;
