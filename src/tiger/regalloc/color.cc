@@ -20,8 +20,12 @@ struct Color::Impl {
 
   Result AssignColors() {
     BuildPalette();
+    fprintf(stderr, "[cc] color palette %d\n", (int)palette_.size());
     BuildAdjacency();
+    fprintf(stderr, "[cc] color adjacency %d colorable %d\n",
+            (int)adjacency_.size(), (int)colorable_.size());
     SimplifySelect();
+    fprintf(stderr, "[cc] color selected\n");
     return Emit();
   }
 

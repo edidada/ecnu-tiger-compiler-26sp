@@ -119,6 +119,7 @@ void LiveGraphFactory::LiveMap() {
 }
 
 void LiveGraphFactory::InterfGraph() {
+  fprintf(stderr, "[cc] interf begin\n");
   auto node_of = [this](temp::Temp *temp) {
     auto existing = temp_node_map_->Look(temp);
     if (existing)
