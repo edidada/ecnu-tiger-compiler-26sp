@@ -85,13 +85,15 @@ private:
       auto dst = Find(move_dst);
       if (src == dst)
         continue;
-      bool fixed_pair = precolored_color_.count(src) || precolored_color_.count(dst);
-      if (!fixed_pair && Interferes(src, dst))
+      // Non-interference of the two move operands is THE safety criterion;
+      // precolored machine registers get no exception.
+      if (Interferes(src, dst))
         continue;
+      bool fixed_pair = precolored_color_.count(src) || precolored_color_.count(dst);
       live::INodePtr keep = precolored_color_.count(src) ? src
                             : precolored_color_.count(dst)
                                 ? dst
-                                : (src <= dst ? src : dst);
+                                : (src < dst ? src : dst);
       auto fold = keep == src ? dst : src;
       group_[fold] = keep;
       auto &keep_members = members_[keep];
