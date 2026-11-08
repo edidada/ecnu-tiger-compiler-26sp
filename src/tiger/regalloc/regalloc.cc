@@ -145,7 +145,7 @@ void RegAllocator::RegAlloc() {
     for (auto temp : spilled)
       if (!spill_offsets_.count(temp))
         spill_offsets_[temp] = frame_->AllocSpillSlot();
-    current = Rewrite(original, spilled);
+    current = Rewrite(original, spilled)->GetList();
     delete wrapper;
   }
   throw std::logic_error("register allocation failed to converge");
