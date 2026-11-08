@@ -105,8 +105,14 @@ void LiveGraphFactory::LiveMap() {
       auto in_old = in_ptr ? ToSet(in_ptr) : TempSet();
       if (out_old != out || in_old != in) {
         changed = true;
-        in_->Set(node, ToTempList(in));
-        out_->Set(node, ToTempList(out));
+        if (in_ptr)
+          in_->Set(node, ToTempList(in));
+        else
+          in_->Enter(node, ToTempList(in));
+        if (out_ptr)
+          out_->Set(node, ToTempList(out));
+        else
+          out_->Enter(node, ToTempList(out));
       }
     }
   }
