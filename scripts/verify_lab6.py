@@ -43,6 +43,10 @@ STACK_STORE=re.compile(r'movq \S+, (?:\d+|0x[0-9a-fA-F]+)\(%rsp\)$')
 
 def run(args,**kwargs):return subprocess.run(args,cwd=ROOT,text=True,capture_output=True,**kwargs)
 
+def stream_run(args,stdout_path,timeout):
+    with open(stdout_path,'w') as out:
+        return subprocess.run(args,cwd=ROOT,stdout=out,stderr=None,timeout=timeout)
+
 def announce(msg):print(f'[lab6] {msg}',flush=True)
 
 def normalized(text):
@@ -202,15 +206,16 @@ def main():
         cases_dir=OUT/'cases';cases_dir.mkdir(parents=True,exist_ok=True)
         log_harness=OUT/'compiler-logs';log_harness.mkdir(parents=True,exist_ok=True)
         for i,source in enumerate(sorted(official)):
-            announce(f'official {i+1}/{OFFICIAL_FILES}: {source.stem}')
             target=cases_dir/source.name
             target.write_bytes(source.read_bytes())
-            logging=run([str(ROOT/'build/tiger-compiler'),str(target)],timeout=60)
-            (log_harness/f'{source.stem}.txt').write_text(logging.stdout+'\nSTDERR\n'+logging.stderr)
-            announce(f'official {source.stem}: compiler rc={logging.returncode} stdout={len(logging.stdout)}B stderr={len(logging.stderr)}B')
-            if logging.returncode:
-                records.append({'kind':'official_ra_execution','name':source.stem,'passed':False,'stage':'compiler','exit':logging.returncode});
+            announce(f'official {i+1}/{OFFICIAL_FILES}: {source.stem} compiling')
+            try:
+                stream_run([str(ROOT/'build/tiger-compiler'),str(target)],OUT/f'trace-{source.stem}.log',90)
+            except subprocess.TimeoutExpired:
+                announce(f'official {source.stem}: COMPILER TIMEOUT after 90s')
+                records.append({'kind':'official_ra_execution','name':source.stem,'passed':False,'stage':'compiler','exit':'timeout'})
                 continue
+            announce(f'official {source.stem}: compiler finished')
             asm=cases_dir/(source.name+'.s')
             inputs=sorted((source.parent/'merge').glob('*.in')) if source.stem=='merge' else [None]
             for stdin in inputs:
