@@ -21,3 +21,8 @@ file(GLOB SLP_SOURCES src/straightline/*.cc)
 add_executable(test_slp ${SLP_SOURCES})
 add_executable(test_codegen src/tiger/main/test_codegen.cc)
 target_link_libraries(test_codegen tiger_lab5)
+
+add_executable(lab5_ir tests/lab5_ir.cc)
+target_link_libraries(lab5_ir tiger_lab5)
+add_executable(lab5_frame tests/lab5_frame.cc)
+target_link_libraries(lab5_frame tiger_lab5)

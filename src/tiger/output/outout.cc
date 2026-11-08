@@ -114,16 +114,13 @@ void StringFrag::OutputAssem(FILE *out, OutputPhase phase, bool need_ra) const {
   // to print all the charactors instead of using fprintf(str)
   fprintf(out, ".long %d\n", length);
   fprintf(out, ".string \"");
-  for (int i = 0; i < length; i++) {
-    if (str_[i] == '\n') {
-      fprintf(out, "\\n");
-    } else if (str_[i] == '\t') {
-      fprintf(out, "\\t");
-    } else if (str_[i] == '\"') {
-      fprintf(out, "\\\"");
-    } else {
-      fprintf(out, "%c", str_[i]);
-    }
+  for (unsigned char ch : str_) {
+    if(ch=='\n')fprintf(out,"\\n");
+    else if(ch=='\t')fprintf(out,"\\t");
+    else if(ch=='\"')fprintf(out,"\\\"");
+    else if(ch=='\\')fprintf(out,"\\\\");
+    else if(ch<32 || ch>=127)fprintf(out,"\\%03o",ch);
+    else fputc(ch,out);
   }
   fprintf(out, "\"\n");
 }
