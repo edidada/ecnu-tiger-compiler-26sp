@@ -10,8 +10,19 @@ extern frame::RegManager *reg_manager;
 namespace ra {
 
 namespace {
+temp::TempList *CopyTemps(temp::TempList *list) {
+  if (!list)
+    return nullptr;
+  auto copy = new temp::TempList();
+  for (auto temp : list->GetList())
+    copy->Append(temp);
+  return copy;
+}
+
 temp::TempList *MappedTemps(temp::TempList *list,
                             const std::set<temp::Temp *> &spilled) {
+  if (!list)
+    return nullptr;
   auto mapped = new temp::TempList();
   for (auto temp : list->GetList())
     mapped->Append(spilled.count(temp) ? temp::TempFactory::NewTemp() : temp);
@@ -91,8 +102,7 @@ RegAllocator::Clone(const std::list<assem::Instr *> &sources) {
   for (auto instr : sources) {
     if (auto move = dynamic_cast<assem::MoveInstr *>(instr)) {
       output->Append(new assem::MoveInstr(
-          move->assem_, move->dst_ ? new temp::TempList(move->dst_->GetList()) : nullptr,
-          move->src_ ? new temp::TempList(move->src_->GetList()) : nullptr));
+          move->assem_, CopyTemps(move->dst_), CopyTemps(move->src_)));
     } else if (auto oper = dynamic_cast<assem::OperInstr *>(instr)) {
       auto targets = oper->jumps_
                          ? new assem::Targets(new std::vector<temp::Label *>(
@@ -100,8 +110,7 @@ RegAllocator::Clone(const std::list<assem::Instr *> &sources) {
                                oper->jumps_->labels_->end()))
                          : nullptr;
       output->Append(new assem::OperInstr(
-          oper->assem_, oper->dst_ ? new temp::TempList(oper->dst_->GetList()) : nullptr,
-          oper->src_ ? new temp::TempList(oper->src_->GetList()) : nullptr, targets));
+          oper->assem_, CopyTemps(oper->dst_), CopyTemps(oper->src_), targets));
     } else if (auto label = dynamic_cast<assem::LabelInstr *>(instr)) {
       output->Append(new assem::LabelInstr(label->assem_, label->label_));
     }
