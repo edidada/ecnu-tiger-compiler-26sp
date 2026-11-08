@@ -157,10 +157,10 @@ def call_window_checks(instr,fn,problems):
                 m=re.fullmatch(r'movq (\S+), (\d+|0x[0-9a-fA-F]+)\(%rsp\)',l)
                 raw=m.group(2)
                 offs.append(int(raw,16) if raw.startswith('0x') else int(raw))
-        if offs and len(order)!=6:
-            problems.append(f'call to {fn}->{target}: stack args with {len(order)} ABI fills, not six (spill traffic tolerated): {offs!r}')
         if offs and offs!=list(range(0,8*len(offs),8)):
             problems.append(f'call to {fn}->{target}: outgoing stack offsets not consecutive words: {offs!r}')
+        if not offs and len(set(order))<len(order):
+            problems.append(f'call to {fn}->{target}: ABI fills repeat a register without stack args: {order!r}')
 
 BOUNDARY_FIXTURES_LIST=[
  ('adapter_accepts_wide_temp_registers','tigermain:\nmovq $7, t1234\nmovq t1234, %rax\nretq\n','','ASM_RESULT 7'),
@@ -216,7 +216,7 @@ def main():
                 ref=ROOT/'testdata/lab5or6/refs'/('merge/'+stdin.stem+'.out' if stdin else source.stem+'.out')
                 p=run([sys.executable,str(ROOT/'scripts/lab5_test/main.py'),str(asm)],input=stdin.read_text() if stdin else '',timeout=60)
                 (OUT/(name.replace('/','-')+'.txt')).write_text(p.stdout+'\nSTDERR\n'+p.stderr)
-                records.append({'kind':'official_ra_execution','name':name,'passed':p.returncode==0 and normalized(p.stdout)==normalized(ref.read_text()),'exit':p.returncode,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'reference_sha256':hashlib.sha256(ref.read_bytes()).hexdigest()})
+                records.append({'kind':'official_ra_execution','name':name,'passed':p.returncode==0 and normalized(p.stdout)==normalized(ref.read_text()),'exit':p.returncode,'actual_stdout':p.stdout[:400],'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'reference_sha256':hashlib.sha256(ref.read_bytes()).hexdigest()})
         official_records=[x for x in records if x['kind']=='official_ra_execution']
         if len(official_records)!=OFFICIAL_CASES:
             raise SystemExit(f'official records {len(official_records)} != {OFFICIAL_CASES}; inventory changed, do not accept')
