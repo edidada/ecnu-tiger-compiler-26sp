@@ -149,7 +149,8 @@ void LiveGraphFactory::InterfGraph() {
     auto instr = node->NodeInfo();
     if (auto move = dynamic_cast<assem::MoveInstr *>(instr)) {
       auto uses = ToSet(move->Use());
-      for (auto defined : move->Def()->GetList()) {
+      auto defs = move->Def();
+      for (auto defined : defs ? defs->GetList() : std::list<temp::Temp *>{}) {
         auto defined_node = node_of(defined);
         for (auto live : SetMinus(out, uses)) {
           if (live == defined)
@@ -164,7 +165,8 @@ void LiveGraphFactory::InterfGraph() {
         live_graph_.moves->Append(node_of(move->Use()->GetList().front()),
                                   node_of(move->Def()->GetList().front()));
     } else {
-      for (auto defined : instr->Def()->GetList()) {
+      auto defs = instr->Def();
+      for (auto defined : defs ? defs->GetList() : std::list<temp::Temp *>{}) {
         auto defined_node = node_of(defined);
         for (auto live : out) {
           if (live == defined)
