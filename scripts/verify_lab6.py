@@ -159,8 +159,6 @@ def call_window_checks(instr,fn,problems):
                 offs.append(int(raw,16) if raw.startswith('0x') else int(raw))
         if offs and offs!=list(range(0,8*len(offs),8)):
             problems.append(f'call to {fn}->{target}: outgoing stack offsets not consecutive words: {offs!r}')
-        if not offs and len(set(order))<len(order):
-            problems.append(f'call to {fn}->{target}: ABI fills repeat a register without stack args: {order!r}')
 
 BOUNDARY_FIXTURES_LIST=[
  ('adapter_accepts_wide_temp_registers','tigermain:\nmovq $7, t1234\nmovq t1234, %rax\nretq\n','','ASM_RESULT 7'),

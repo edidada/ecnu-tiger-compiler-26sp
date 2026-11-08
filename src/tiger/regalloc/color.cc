@@ -85,15 +85,13 @@ private:
       auto dst = Find(move_dst);
       if (src == dst)
         continue;
-      // Non-interference of the two move operands is THE safety criterion;
-      // precolored machine registers get no exception.
-      if (Interferes(src, dst))
-        continue;
+      // Precolored registers are never coalesced: the shadow copy keeps an
+      // independent position. Virtual pairs use the safe non-interference
+      // rule for the shared color.
       bool fixed_pair = precolored_color_.count(src) || precolored_color_.count(dst);
-      live::INodePtr keep = precolored_color_.count(src) ? src
-                            : precolored_color_.count(dst)
-                                ? dst
-                                : (src < dst ? src : dst);
+      if (fixed_pair || Interferes(src, dst))
+        continue;
+      live::INodePtr keep = src < dst ? src : dst;
       auto fold = keep == src ? dst : src;
       group_[fold] = keep;
       auto &keep_members = members_[keep];
