@@ -30,4 +30,3 @@ target_link_libraries(lab5_frame tiger_lab5)
 
 add_executable(tiger-compiler src/tiger/main/main.cc)
 target_link_libraries(tiger-compiler tiger_lab5)
-add_dependencies(tiger-compiler lex_parse_sources)
